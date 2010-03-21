@@ -7,12 +7,18 @@ get "/" do
 end
 
 get "/players" do
-  @player_count = Player.count
+  before_players
   erb :players
 end
 
 post "/players" do
   Player.create(params)
-  @player_count = Player.count
+  before_players
   erb :players
+end
+
+private
+
+def before_players
+  @player_count = Player.count
 end
