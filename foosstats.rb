@@ -6,10 +6,13 @@ get "/" do
   erb :index
 end
 
-get "/users/new" do
-  erb :new_user
+get "/players" do
+  @player_count = Player.count
+  erb :players
 end
 
-post "/add_user" do
+post "/players" do
   Player.create(params)
+  @player_count = Player.count
+  erb :players
 end
