@@ -1,7 +1,7 @@
 require "datamapper"
 
+DataMapper::Logger.new($stdout, :debug)
 DataMapper.setup(:default, ENV["DATABASE_URL"] || "sqlite3:///#{Dir.pwd}/stats.db")
-DataMapper.auto_migrate!
 
 class Player
   include DataMapper::Resource
@@ -11,7 +11,11 @@ class Player
   
   property :first_name, String
   property :last_name, String
-  property :email, String    
+  property :email, String
+  
+  def friendly_name
+    "#{first_name} #{last_name}"
+  end
 end
 
 class Game

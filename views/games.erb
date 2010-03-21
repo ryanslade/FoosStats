@@ -1,0 +1,29 @@
+<html>
+
+	<form method="post" action="/games">
+		<h3>Record new game:</h3>
+		Team One Attacker: 
+			<select name="team_one_attack">
+				<%= erb(:player_select, :layout => false) %>
+			</select>
+			<br/>
+		Team One Defender: 	<select name="team_one_defense">
+				<%= erb(:player_select, :layout => false) %>
+			</select>
+			<br/>
+		Team One Score <input name="team_one_score" /><br/>
+		
+		Team Two Attacker: <select name="team_two_attack">
+			<%= erb(:player_select, :layout => false) %>
+		</select>
+		<br/>
+		Team Two Defender: <select name="team_two_defense">
+			<%= erb(:player_select, :layout => false) %>
+		</select>
+		<br/>
+		Team Two Score <input name="team_two_score" /><br/>
+		
+		<input id="update-button" value="Record" type="submit">
+	</form>
+	
+</html>
