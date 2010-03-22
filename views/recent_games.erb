@@ -12,11 +12,11 @@
 		</tr>
 		<% for game in @games do %>
 		<tr>
-			<td><%= game.team_one_attack.name %></td>
-			<td><%= game.team_one_defense.name %></td>
+			<td><%= game.team_one_attacker.name %></td>
+			<td><%= game.team_one_defender.name %></td>
 			<td><%= game.team_one_score %></td>
-			<td><%= game.team_two_attack.name %></td>
-			<td><%= game.team_two_defense.name %></td>
+			<td><%= game.team_two_attacker.name %></td>
+			<td><%= game.team_two_defender.name %></td>
 			<td><%= game.team_two_score %></td>
 			<td><%= game.created_at %></td>
 		</tr>
