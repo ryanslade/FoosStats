@@ -1,4 +1,6 @@
 [ ] Add validation
-[ ] Make it so that Players can be referenced directly from a Game
 [ ] Player routes should match games routes
 [ ] Should really have some tests
+[ ] Getting a list of Games should include the Player objects in one SQL statement
+
+[X] Make it so that Players can be referenced directly from a Game

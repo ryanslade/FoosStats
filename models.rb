@@ -1,6 +1,6 @@
 require "datamapper"
 
-#DataMapper::Logger.new($stdout, :debug)
+DataMapper::Logger.new($stdout, :debug)
 DataMapper.setup(:default, ENV["DATABASE_URL"] || "sqlite3:///#{Dir.pwd}/stats.db")
 
 class Player
@@ -13,7 +13,7 @@ class Player
   property :last_name, String
   property :email, String
   
-  def friendly_name
+  def name
     "#{first_name} #{last_name}"
   end
 end
@@ -24,11 +24,11 @@ class Game
   property :id, Serial, :key => true
   property :created_at, DateTime, :default => lambda { Time.now }
   
-  property :team_one_attack, Integer
-  property :team_one_defense, Integer
+  belongs_to :team_one_attack, Player, :child_key => [:id]
+  belongs_to :team_one_defense, Player, :child_key => [:id]
   property :team_one_score, Integer, :default => 0
   
-  property :team_two_attack, Integer
-  property :team_two_defense, Integer
+  belongs_to :team_two_attack, Player, :child_key => [:id]
+  belongs_to :team_two_defense, Player, :child_key => [:id]
   property :team_two_score, Integer, :default => 0
 end
