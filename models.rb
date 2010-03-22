@@ -31,4 +31,8 @@ class Game
   property :team_two_attack, Integer
   property :team_two_defense, Integer
   property :team_two_score, Integer, :default => 0
+  
+  def team_one_attack_name
+    Player.get(team_one_attack).friendly_name
+  end
 end

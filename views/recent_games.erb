@@ -1,7 +1,26 @@
 <html>
 
-	<% for game in @games do %>
-	<%= game.created_at.to_s %><br />
-	<% end %>
+	<table border="0" cellspacing="5" cellpadding="5">
+		<tr>
+			<th>Attacker</th>
+			<th>Defender</th>
+			<th>Score</th>
+			<th>Attacker</th>
+			<th>Defender</th>
+			<th>Score</th>
+			<th>Date</th>
+		</tr>
+		<% for game in @games do %>
+		<tr>
+			<td><%= game.team_one_attack %></td>
+			<td><%= game.team_one_defense %></td>
+			<td><%= game.team_one_score %></td>
+			<td><%= game.team_two_attack %></td>
+			<td><%= game.team_two_defense %></td>
+			<td><%= game.team_two_score %></td>
+			<td><%= game.created_at %></td>
+		</tr>
+		<% end %>
+	</table>
 	
 </html>
