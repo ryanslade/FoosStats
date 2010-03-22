@@ -15,7 +15,7 @@ get "/players" do
 end
 
 post "/players" do
-  Player.create(params)
+  Player.create!(params)
   before_players
   erb :players
 end
@@ -27,7 +27,7 @@ end
 
 post "/games" do
   before_games
-  Game.create(params)
+  Game.create!(params)
   erb :games
 end
 
