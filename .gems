@@ -1,2 +1,2 @@
-sinatra
+sinatra --version 0.9.6
 dm-core --version 0.10.2
