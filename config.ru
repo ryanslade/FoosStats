@@ -1,2 +1,2 @@
-require 'models'
+require 'foosstats'
 run Sinatra::Application
