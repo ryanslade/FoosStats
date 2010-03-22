@@ -37,4 +37,8 @@ class Game
   
   belongs_to :team_two_attacker, Player, :child_key => [:team_two_attack]
   belongs_to :team_two_defender, Player, :child_key => [:team_two_defense]
+  
+  def created_at_friendly
+    created_at.strftime("%Y-%m-%d %H:%M:%S")
+  end
 end
