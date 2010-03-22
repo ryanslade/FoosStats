@@ -11,8 +11,11 @@
 				<%= erb(:player_select, :layout => false) %>
 			</select>
 			<br/>
-		Team One Score <input name="team_one_score" /><br/>
-		
+		Team One Score 	<select name="team_one_score">
+					<%= erb(:score_select, :layout => false) %>
+				</select>
+				<br/>
+				<br/>
 		Team Two Attacker: <select name="team_two_attack">
 			<%= erb(:player_select, :layout => false) %>
 		</select>
@@ -21,8 +24,11 @@
 			<%= erb(:player_select, :layout => false) %>
 		</select>
 		<br/>
-		Team Two Score <input name="team_two_score" /><br/>
-		
+		Team Two Score 	<select name="team_two_score">
+					<%= erb(:score_select, :layout => false) %>
+				</select>
+				<br/>
+				<br/>
 		<input id="update-button" value="Record" type="submit">
 	</form>
 	
