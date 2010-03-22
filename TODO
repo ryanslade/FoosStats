@@ -1,2 +1,3 @@
 [ ] Add validation
 [ ] Make it so that Players can be referenced directly from a Game
+[ ] Player routes should match games routes
