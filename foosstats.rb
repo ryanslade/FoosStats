@@ -6,7 +6,7 @@ require "datamapper"
 DataMapper.auto_upgrade!
 
 get "/" do
-  erb :index
+  redirect "/games/recent"
 end
 
 get "/players" do
@@ -20,15 +20,20 @@ post "/players" do
   erb :players
 end
 
-get "/games" do
+get "/games/recent" do
+  @games = Game.all(:limit => 10, :order => [ :created_at.desc ] )
+  erb :recent_games
+end
+
+get "/games/new" do
   before_games
   erb :games
 end
 
-post "/games" do
+post "/games/create" do
   before_games
   Game.create!(params)
-  erb :games
+  redirect "/games/recent"
 end
 
 private
