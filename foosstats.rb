@@ -9,12 +9,12 @@ get "/" do
   redirect "/games/recent"
 end
 
-get "/players" do
+get "/players/new" do
   before_players
   erb :players
 end
 
-post "/players" do
+post "/players/create" do
   Player.create!(params)
   before_players
   erb :players
