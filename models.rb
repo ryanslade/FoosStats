@@ -7,7 +7,7 @@ class Player
   include DataMapper::Resource
 
   property :id, Serial, :key => true
-  property :created_at, DateTime, :default => lambda { Time.now }
+  property :created_at, DateTime, :default => lambda { Time.now.utc }
   
   property :first_name, String
   property :last_name, String
@@ -22,7 +22,7 @@ class Game
   include DataMapper::Resource
   
   property :id, Serial, :key => true
-  property :created_at, DateTime, :default => lambda { Time.now }
+  property :created_at, DateTime, :default => lambda { Time.now.utc }
   
   property :team_one_attack, Integer
   property :team_one_defense, Integer
