@@ -16,6 +16,10 @@ class Player
   def name
     "#{first_name} #{last_name}"
   end
+  
+  def self.order_by_name
+    all(:order => [:first_name.asc, :last_name.asc])
+  end
 end
 
 class Game

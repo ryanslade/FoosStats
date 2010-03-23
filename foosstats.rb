@@ -20,6 +20,11 @@ post "/players/create" do
   erb :players_form
 end
 
+get "/players" do
+  @players = Player.order_by_name
+  erb :players
+end
+
 get "/games/recent" do
   @games = Game.all(:limit => 10, :order => [ :created_at.desc ])
   erb :recent_games
@@ -39,7 +44,7 @@ end
 private
 
 def before_games
-  @players = Player.all(:order => [ :first_name.asc, :last_name.asc ])
+  @players = Player.order_by_name
 end
 
 def before_players
