@@ -11,13 +11,13 @@ end
 
 get "/players/new" do
   before_players
-  erb :players
+  erb :players_form
 end
 
 post "/players/create" do
   Player.create!(params)
   before_players
-  erb :players
+  erb :players_form
 end
 
 get "/games/recent" do
