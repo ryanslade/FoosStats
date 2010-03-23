@@ -1,7 +1,7 @@
 require "rubygems"
 require "sinatra"
-require "models"
 require "datamapper"
+require File.join(File.dirname(__FILE__), "models")
 
 DataMapper.auto_upgrade!
 
