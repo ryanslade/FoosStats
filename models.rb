@@ -1,6 +1,6 @@
 require "datamapper"
 
-#DataMapper::Logger.new($stdout, :debug)
+DataMapper::Logger.new($stdout, :debug)
 DataMapper.setup(:default, ENV["DATABASE_URL"] || "sqlite3:///#{Dir.pwd}/stats.db")
 
 class Player
@@ -44,5 +44,33 @@ class Game
   
   def created_at_friendly
     created_at.strftime("%Y-%m-%d %H:%M:%S")
+  end
+end
+
+class PlayerStats
+  attr_reader :wins
+  attr_reader :losses
+  
+  def initialize
+    @players = Player.all
+    @games = Game.all
+    @wins = Hash.new(0)
+    @losses = Hash.new(0)
+    calculate
+  end
+  
+  private
+  
+  def calculate
+    for game in @games do
+      winner = game.team_one_score > game.team_two_score ? "team_one" : "team_two"
+      loser  = game.team_one_score < game.team_two_score ? "team_one" : "team_two"
+      
+      @wins[game.send(winner+"_attack")] += 1
+      @wins[game.send(winner+"_defense")] += 1
+      
+      @losses[game.send(loser+"_attack")] += 1
+      @losses[game.send(loser+"_defense")] += 1
+    end
   end
 end

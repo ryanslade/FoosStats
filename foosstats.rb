@@ -22,6 +22,7 @@ end
 
 get "/players" do
   @players = Player.order_by_name
+  @stats = PlayerStats.new
   erb :players
 end
 
