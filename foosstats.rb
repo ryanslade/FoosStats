@@ -15,9 +15,12 @@ get "/players/new" do
 end
 
 post "/players/create" do
-  Player.create!(params)
-  before_players
-  erb :players_form
+  player = Player.create(params)
+  if player.save
+    erb :player_form
+  else
+    redirect "/players"
+  end
 end
 
 get "/players" do

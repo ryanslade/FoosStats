@@ -1,4 +1,5 @@
 require "datamapper"
+require "dm-validations"
 
 #DataMapper::Logger.new($stdout, :debug)
 DataMapper.setup(:default, ENV["DATABASE_URL"] || "sqlite3:///#{Dir.pwd}/stats.db")
@@ -9,9 +10,9 @@ class Player
   property :id, Serial, :key => true
   property :created_at, DateTime, :default => lambda { Time.now.utc }
   
-  property :first_name, String
-  property :last_name, String
-  property :email, String
+  property :first_name, String, :required => true 
+  property :last_name, String, :required => true 
+  property :email, String, :format => :email_address
   
   def name
     "#{first_name} #{last_name}"
