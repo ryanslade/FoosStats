@@ -7,7 +7,7 @@ describe "Foos Stats" do
     @app ||= Sinatra::Application
   end
 
-  it "/ should redirect to /games/recent" do
+  it "should redirect to /games/recent when pointed at /" do
     get "/"
     follow_redirect!
     assert_equal "http://example.org/games/recent", last_request.url
