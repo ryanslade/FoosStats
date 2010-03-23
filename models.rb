@@ -52,7 +52,6 @@ class PlayerStats
   attr_reader :losses
   
   def initialize
-    @players = Player.all
     @games = Game.all
     @wins = Hash.new(0)
     @losses = Hash.new(0)
@@ -66,11 +65,11 @@ class PlayerStats
       winner = game.team_one_score > game.team_two_score ? "team_one" : "team_two"
       loser  = game.team_one_score < game.team_two_score ? "team_one" : "team_two"
       
-      @wins[game.send(winner+"_attack")] += 1
-      @wins[game.send(winner+"_defense")] += 1
-      
-      @losses[game.send(loser+"_attack")] += 1
-      @losses[game.send(loser+"_defense")] += 1
+      for position in ["_attack", "_defense"] do
+        @wins[game.send(winner+position)] += 1
+        @losses[game.send(loser+position)] += 1
+      end
     end
   end
+  
 end
