@@ -45,6 +45,11 @@ post "/games/create" do
   redirect "/games/recent"
 end
 
+get "/games/assram/:id" do
+  Game.get(params[:id]).destroy
+  redirect "/games/recent"
+end
+
 private
 
 def before_games
