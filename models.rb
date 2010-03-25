@@ -34,11 +34,11 @@ class Game
 
   ["team_one", "team_two"].each do |team|
     property "#{team}_attack".to_sym, Integer
-    property "#{team}_defense").to_sym, Integer
+    property "#{team}_defense".to_sym, Integer
     property "#{team}_score".to_sym, Integer, :default => 0
 
-    belongs_to "#{team}_attacker").to_sym, Player, :child_key => ["#{team}_attack").to_sym]
-    belongs_to "#{team}_defender").to_sym, Player, :child_key => ["#{team}_defense").to_sym]
+    belongs_to "#{team}_attacker".to_sym, Player, :child_key => ["#{team}_attack".to_sym]
+    belongs_to "#{team}_defender".to_sym, Player, :child_key => ["#{team}_defense".to_sym]
   end
 
   def created_at_friendly
