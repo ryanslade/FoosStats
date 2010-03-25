@@ -3,6 +3,7 @@
 [ ] Common object properties should be moved out (eg. creatd_at)
 [ ] Try and get tests to use an in memory sqlite3 db
 [ ] More specs!
+[ ] Ability to delete games
 
 [X] Should really have some tests
 [X] Should use timezones - Using utc by default, seems to solve the problem
