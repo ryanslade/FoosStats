@@ -5,7 +5,6 @@ require "dm-validations"
 DataMapper.setup(:default, ENV["DATABASE_URL"] || "sqlite3:///#{Dir.pwd}/stats.db")
 
 class Player
-  
   include DataMapper::Resource
 
   property :id, Serial, :key => true
@@ -22,11 +21,9 @@ class Player
   def self.order_by_name
     all(:order => [:first_name.asc, :last_name.asc])
   end
-  
 end
 
 class Game
-  
   include DataMapper::Resource
 
   property :id, Serial, :key => true
@@ -48,11 +45,9 @@ class Game
   def self.recent(limit=10)
     all(:limit => limit, :order => [ :created_at.desc ])
   end
-  
 end
 
 class PlayerStats
-  
   attr_reader :wins
   attr_reader :losses
 
@@ -76,5 +71,4 @@ class PlayerStats
       end
     end
   end
-  
 end
