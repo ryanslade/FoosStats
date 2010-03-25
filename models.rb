@@ -52,7 +52,6 @@ class PlayerStats
   attr_reader :losses
 
   def initialize
-    @games = Game.all
     @wins = Hash.new(0)
     @losses = Hash.new(0)
     calculate
@@ -61,7 +60,7 @@ class PlayerStats
   private
 
   def calculate
-    for game in @games do
+    for game in Game.all do
       winner = game.team_one_score > game.team_two_score ? "team_one" : "team_two"
       loser  = game.team_one_score < game.team_two_score ? "team_one" : "team_two"
 
