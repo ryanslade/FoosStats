@@ -30,7 +30,7 @@ get "/players" do
 end
 
 get "/games/recent" do
-  @games = Game.all(:limit => 10, :order => [ :created_at.desc ])
+  @games = Game.recent
   erb :recent_games
 end
 

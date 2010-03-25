@@ -46,6 +46,10 @@ class Game
   def created_at_friendly
     created_at.strftime("%Y-%m-%d %H:%M:%S")
   end
+  
+  def self.recent(limit=10)
+    all(:limit => limit, :order => [ :created_at.desc ])
+  end
 end
 
 class PlayerStats
