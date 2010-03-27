@@ -42,8 +42,12 @@ class Game
     created_at.strftime("%Y-%m-%d %H:%M:%S")
   end
 
+  def self.by_date
+    all(:order => [ :created_at.desc ])
+  end
+  
   def self.recent(limit=10)
-    all(:limit => limit, :order => [ :created_at.desc ])
+    by_date.all(:limit => limit)
   end
 end
 
@@ -63,7 +67,7 @@ class PlayerStats
   private
 
   def calculate_wins_losses
-    for game in Game.all do
+    for game in Game.by_date do
       winner = game.team_one_score > game.team_two_score ? "team_one" : "team_two"
       loser  = game.team_one_score < game.team_two_score ? "team_one" : "team_two"
 
