@@ -13,7 +13,7 @@
 			<td><%= player.name %></td>
 			<td><%= @stats.wins[player.id] %></td>
 			<td><%= @stats.losses[player.id] %></td>
-			<td><%= @stats.ratios[player.id] %></td>
+			<td><%= format("%.3f", @stats.ratios[player.id]) %></td>
 			<td><%= @stats.streaks[player.id] %></td>
 		</tr>
 		<% end %>
