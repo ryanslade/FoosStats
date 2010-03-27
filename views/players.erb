@@ -5,12 +5,14 @@
 			<th>Name</th>
 			<th>Wins</th>
 			<th>Losses</th>
+			<th>Win/Loss</th>
 		</tr>
 		<% for player in @players do %>
 		<tr>
 			<td><%= player.name %></td>
 			<td><%= @stats.wins[player.id] %></td>
 			<td><%= @stats.losses[player.id] %></td>
+			<td><%= @stats.ratios[player.id] %></td>
 		</tr>
 		<% end %>
 	</table>

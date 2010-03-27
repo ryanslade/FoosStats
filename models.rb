@@ -50,16 +50,19 @@ end
 class PlayerStats
   attr_reader :wins
   attr_reader :losses
+  attr_reader :ratios
 
   def initialize
     @wins = Hash.new(0)
     @losses = Hash.new(0)
-    calculate
+    @ratios = Hash.new(0)
+    calculate_wins_losses
+    calculate_win_loss_ratios
   end
 
   private
 
-  def calculate
+  def calculate_wins_losses
     for game in Game.all do
       winner = game.team_one_score > game.team_two_score ? "team_one" : "team_two"
       loser  = game.team_one_score < game.team_two_score ? "team_one" : "team_two"
@@ -69,5 +72,9 @@ class PlayerStats
         @losses[game.send(loser+position)] += 1
       end
     end
+  end
+  
+  def calculate_win_loss_ratios
+    (@wins.keys + @losses.keys).uniq.each { |k| @ratios[k] = @wins[k].to_f / @losses[k] }
   end
 end
