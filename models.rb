@@ -55,30 +55,41 @@ class PlayerStats
   attr_reader :wins
   attr_reader :losses
   attr_reader :ratios
+  attr_reader :streaks
 
   def initialize
+    @games = Game.by_date
     @wins = Hash.new(0)
     @losses = Hash.new(0)
     @ratios = Hash.new(0)
-    calculate_wins_losses
+    @streaks = Hash.new("")
+    
+    calculate_wins_and_streaks
     calculate_win_loss_ratios
+    trim_streaks
   end
 
   private
 
-  def calculate_wins_losses
-    for game in Game.by_date do
-      winner = game.team_one_score > game.team_two_score ? "team_one" : "team_two"
-      loser  = game.team_one_score < game.team_two_score ? "team_one" : "team_two"
+  def trim_streaks(n=10)
+    @streaks.each { |k,v| @streaks[k] = v[0,n] }
+  end
+
+  def calculate_wins_and_streaks
+    for game in @games do
+      winning_team = game.team_one_score > game.team_two_score ? "team_one" : "team_two"
+      losing_team  = game.team_one_score < game.team_two_score ? "team_one" : "team_two"
 
       for position in ["_attack", "_defense"] do
-        @wins[game.send(winner+position)] += 1
-        @losses[game.send(loser+position)] += 1
+        @wins[game.send(winning_team+position)] += 1
+        @losses[game.send(losing_team+position)] += 1
+        @streaks[game.send(winning_team+position)] += "W"
+        @streaks[game.send(losing_team+position)] += "L"
       end
     end
   end
   
   def calculate_win_loss_ratios
-    (@wins.keys + @losses.keys).uniq.each { |k| @ratios[k] = @wins[k].to_f / @losses[k] }
+    (@wins.keys+@losses.keys).uniq.each { |k| @ratios[k] = @wins[k].to_f / @losses[k] }
   end
 end

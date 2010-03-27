@@ -6,6 +6,7 @@
 			<th>Wins</th>
 			<th>Losses</th>
 			<th>Win/Loss</th>
+			<th>Current Form</th>
 		</tr>
 		<% for player in @players do %>
 		<tr>
@@ -13,6 +14,7 @@
 			<td><%= @stats.wins[player.id] %></td>
 			<td><%= @stats.losses[player.id] %></td>
 			<td><%= @stats.ratios[player.id] %></td>
+			<td><%= @stats.streaks[player.id] %></td>
 		</tr>
 		<% end %>
 	</table>
