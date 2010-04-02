@@ -1,3 +1,6 @@
+# Use an in memory sqlite DB in test mode
+ENV["DATABASE_URL"] = "sqlite3::memory:"
+
 require File.join(File.dirname(__FILE__), '..', 'foosstats.rb')
 
 require "rubygems"
