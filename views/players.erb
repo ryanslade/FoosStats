@@ -19,4 +19,17 @@
 		<% end %>
 	</table>
 	
+	Longest winning streak: <%= @stats.longest_wins[0] %> <br/>
+	<ul>
+	<% for player_id in @stats.longest_wins[1] do %>
+		<li><%= @players.get(player_id).name %></li>
+	<% end %>
+	</ul>
+	Longest losing streak: <%= @stats.longest_losses[0] %> <br />
+	<ul>
+	<% for player_id in @stats.longest_losses[1] do %>
+		<li><%= @players.get(player_id).name %></li>
+	<% end %>
+	</ul>
+	
 </html>
