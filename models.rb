@@ -65,27 +65,22 @@ class PlayerStats
     
     calculate_wins_and_streaks
     calculate_win_loss_ratios
-    calculate_longest_streaks
+    calculate_longest_streaks("longest_wins", /W+/)
+    calculate_longest_streaks("longest_losses", /L+/)
     trim_streaks
   end
 
   private
 
-  def calculate_longest_streaks
-    longest_win = 0
-    longest_loss = 0
-    win_streaks = {}
-    loss_streaks = {}
+  def calculate_longest_streaks(target_instance_variable, regex)
+    longest = 0
+    streaks = {}
     @streaks.each do |k,v|
-      wins = v.scan(/W+/).collect { |e| e.length }.sort.last
-      losses = v.scan(/L+/).collect { |e| e.length }.sort.last
-      longest_win = wins if wins && wins > longest_win
-      longest_loss = losses if losses && losses > longest_loss
-      win_streaks[wins] = win_streaks[wins] ? win_streaks[wins] << k : [k]
-      loss_streaks[losses] = loss_streaks[losses] ? loss_streaks[losses] << k : [k]
+      count = v.scan(regex).collect { |e| e.length }.sort.last
+      longest = count if count && count > longest
+      streaks[count] = streaks[count] ? streaks[count] << k : [k]
     end
-    @longest_wins = [longest_win, win_streaks[longest_win]]
-    @longest_losses = [longest_loss, loss_streaks[longest_loss]]
+    instance_variable_set("@#{target_instance_variable}", [longest, streaks[longest]])
   end
 
   def trim_streaks(n=10)
