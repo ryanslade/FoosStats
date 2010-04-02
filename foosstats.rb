@@ -30,6 +30,7 @@ get "/players" do
 end
 
 get "/games/recent" do
+  @games_count = Game.count
   @games = Game.recent
   erb :recent_games
 end
