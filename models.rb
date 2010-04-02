@@ -79,9 +79,8 @@ class PlayerStats
     @streaks.each do |k,v|
       wins = v.scan(/W+/).collect { |e| e.length }.sort.last
       losses = v.scan(/L+/).collect { |e| e.length }.sort.last
-      if wins then longest_win = wins if wins > longest_win
-      if losses then longest_loss = losses if losses > longest_loss
-      
+      longest_win = wins if wins && wins > longest_win
+      longest_loss = losses if losses && losses > longest_loss
       win_streaks[wins] = win_streaks[wins] ? win_streaks[wins] << k : [k]
       loss_streaks[losses] = loss_streaks[losses] ? loss_streaks[losses] << k : [k]
     end
