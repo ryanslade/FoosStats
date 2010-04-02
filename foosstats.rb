@@ -10,7 +10,7 @@ get "/" do
 end
 
 get "/players/new" do
-  before_players
+  @player_count = Player.count
   erb :players_form
 end
 
@@ -35,12 +35,12 @@ get "/games/recent" do
 end
 
 get "/games/new" do
-  before_games
+  @players = Player.order_by_name
   erb :games
 end
 
 post "/games/create" do
-  before_games
+  @players = Player.order_by_name
   Game.create!(params)
   redirect "/games/recent"
 end
@@ -48,14 +48,4 @@ end
 get "/games/assram/:id" do
   Game.get(params[:id]).destroy
   redirect "/games/recent"
-end
-
-private
-
-def before_games
-  @players = Player.order_by_name
-end
-
-def before_players
-  @player_count = Player.count
 end
