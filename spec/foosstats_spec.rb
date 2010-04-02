@@ -46,4 +46,10 @@ describe "Foos Stats" do
     stats.ratios[3].should == 0.625
   end
   
+  it "should find the longest streaks" do
+    stats = PlayerStats.new
+    stats.longest_wins.should == [8, [1,2]]
+    stats.longest_losses.should == [8, [3,4]]
+  end
+  
 end

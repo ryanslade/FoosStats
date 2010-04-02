@@ -52,24 +52,42 @@ class Game
 end
 
 class PlayerStats
-  attr_reader :wins
-  attr_reader :losses
-  attr_reader :ratios
-  attr_reader :streaks
-
-  def initialize
+  attr_reader :wins, :losses, :ratios, :streaks, :longest_wins, :longest_losses
+  
+  def initialize()
     @games = Game.by_date
     @wins = Hash.new(0)
     @losses = Hash.new(0)
     @ratios = Hash.new(0)
     @streaks = Hash.new("")
+    @longest_wins = []
+    @longest_losses = []
     
     calculate_wins_and_streaks
     calculate_win_loss_ratios
+    calculate_longest_streaks
     trim_streaks
   end
 
   private
+
+  def calculate_longest_streaks
+    longest_win = 0
+    longest_loss = 0
+    win_streaks = {}
+    loss_streaks = {}
+    @streaks.each do |k,v|
+      wins = v.scan(/W+/).collect { |e| e.length }.sort.last
+      losses = v.scan(/L+/).collect { |e| e.length }.sort.last
+      longest_win = wins if wins > longest_win
+      longest_loss = losses if losses > longest_loss
+      
+      win_streaks[wins] = win_streaks[wins] ? win_streaks[wins] << k : [k]
+      loss_streaks[losses] = loss_streaks[losses] ? loss_streaks[losses] << k : [k]
+    end
+    @longest_wins = [longest_win, win_streaks[longest_win]]
+    @longest_losses = [longest_loss, loss_streaks[longest_loss]]
+  end
 
   def trim_streaks(n=10)
     @streaks.each { |k,v| @streaks[k] = v[0,n] }
