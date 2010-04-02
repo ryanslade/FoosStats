@@ -17,9 +17,9 @@ end
 post "/players/create" do
   player = Player.create(params)
   if player.save
-    erb :player_form
-  else
     redirect "/players"
+  else
+    redirect "/players/new"
   end
 end
 
