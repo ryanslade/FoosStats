@@ -1,6 +1,8 @@
 require "rubygems"
 require "sinatra"
 require "datamapper"
+require "less"
+
 require File.join(File.dirname(__FILE__), "models")
 
 DataMapper.auto_upgrade!
@@ -52,4 +54,9 @@ end
 get "/games/assram/:id" do
   Game.get(params[:id]).destroy
   redirect "/games/recent"
+end
+
+get "/stylesheet.css" do
+  content_type "text/css", :charset => "utf-8"
+  less :stylesheet
 end
