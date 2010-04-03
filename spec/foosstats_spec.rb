@@ -27,6 +27,24 @@ describe "Foos Stats" do
     last_response.should be_ok
   end
   
+  # Game testing
+  
+  it "should should validate that players have been added" do
+    g = Game.new(:team_one_attack => 1, :team_two_attack => 3, :team_one_defense => 2, :team_two_defense => 4, :team_one_score => 10, :team_two_score => 5)
+    g.valid?.should be true
+    
+    g = Game.new(:team_one_attack => 0, :team_two_attack => 3, :team_one_defense => 2, :team_two_defense => 4, :team_one_score => 10, :team_two_score => 5)
+    g.valid?.should be false
+  end
+  
+  it "should should validate that at least one team has 10" do
+    g = Game.new(:team_one_attack => 1, :team_two_attack => 3, :team_one_defense => 2, :team_two_defense => 4, :team_one_score => 10, :team_two_score => 5)
+    g.valid?.should be true
+    
+    g = Game.new(:team_one_attack => 1, :team_two_attack => 3, :team_one_defense => 2, :team_two_defense => 4, :team_one_score => 6, :team_two_score => 5)
+    g.valid?.should be false
+  end
+  
   # Player stats testing
   
   it "should calculate the correct wins and losses" do

@@ -41,9 +41,12 @@ get "/games/new" do
 end
 
 post "/games/create" do
-  @players = Player.order_by_name
-  Game.create!(params)
-  redirect "/games/recent"
+  game = Game.create(params)
+  if game.save
+    redirect "/games/recent"
+  else
+    redirect "/games/new"
+  end
 end
 
 get "/games/assram/:id" do
