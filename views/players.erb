@@ -1,35 +1,31 @@
-<html>
+<table border="0" cellspacing="5" cellpadding="5">
+	<tr>
+		<th>Name</th>
+		<th>Wins</th>
+		<th>Losses</th>
+		<th>Win/Loss</th>
+		<th>Current Form</th>
+	</tr>
+	<% for player in @players do %>
+	<tr>
+		<td><%= player.name %></td>
+		<td><%= @stats.wins[player.id] %></td>
+		<td><%= @stats.losses[player.id] %></td>
+		<td><%= format("%.3f", @stats.ratios[player.id]) %></td>
+		<td><%= @stats.streaks[player.id] %></td>
+	</tr>
+	<% end %>
+</table>
 
-	<table border="0" cellspacing="5" cellpadding="5">
-		<tr>
-			<th>Name</th>
-			<th>Wins</th>
-			<th>Losses</th>
-			<th>Win/Loss</th>
-			<th>Current Form</th>
-		</tr>
-		<% for player in @players do %>
-		<tr>
-			<td><%= player.name %></td>
-			<td><%= @stats.wins[player.id] %></td>
-			<td><%= @stats.losses[player.id] %></td>
-			<td><%= format("%.3f", @stats.ratios[player.id]) %></td>
-			<td><%= @stats.streaks[player.id] %></td>
-		</tr>
-		<% end %>
-	</table>
-	
-	Longest winning streak: <%= @stats.longest_wins[0] %> <br/>
-	<ul>
+Longest winning streak: <%= @stats.longest_wins[0] %> <br/>
+<ul>
 	<% for player_id in @stats.longest_wins[1] do %>
 		<li><%= @players.get(player_id).name %></li>
 	<% end %>
-	</ul>
-	Longest losing streak: <%= @stats.longest_losses[0] %> <br />
-	<ul>
+</ul>
+Longest losing streak: <%= @stats.longest_losses[0] %> <br />
+<ul>
 	<% for player_id in @stats.longest_losses[1] do %>
 		<li><%= @players.get(player_id).name %></li>
 	<% end %>
-	</ul>
-	
-</html>
+</ul>

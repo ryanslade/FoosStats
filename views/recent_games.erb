@@ -1,28 +1,26 @@
-<html>
-	Showing the latest <%= @games.length %> games out of <%= @games_count %>
-	<table border="0" cellspacing="5" cellpadding="5">
-		<tr>
-			<th>Attacker</th>
-			<th>Defender</th>
-			<th>Score</th>
-			<th>Attacker</th>
-			<th>Defender</th>
-			<th>Score</th>
-			<th>Date</th>
-		</tr>
-		<% for game in @games do %>
-		<tr>
-			<td><%= game.team_one_attacker.name %></td>
-			<td><%= game.team_one_defender.name %></td>
-			<td><%= game.team_one_score %></td>
-			<td><%= game.team_two_attacker.name %></td>
-			<td><%= game.team_two_defender.name %></td>
-			<td><%= game.team_two_score %></td>
-			<td><%= game.created_at_friendly %></td>
-			<!-- <%= game.id %> -->
-		</tr>
-		<% end %>
-	</table>
-	<br/>
-	<a href="/games/new">New Game</a>
-</html>
+Showing the latest <%= @games.length %> games out of <%= @games_count %>
+<table border="0" cellspacing="5" cellpadding="5">
+	<tr>
+		<th>Attacker</th>
+		<th>Defender</th>
+		<th>Score</th>
+		<th>Attacker</th>
+		<th>Defender</th>
+		<th>Score</th>
+		<th>Date</th>
+	</tr>
+	<% for game in @games do %>
+	<tr>
+		<td><%= game.team_one_attacker.name %></td>
+		<td><%= game.team_one_defender.name %></td>
+		<td><%= game.team_one_score %></td>
+		<td><%= game.team_two_attacker.name %></td>
+		<td><%= game.team_two_defender.name %></td>
+		<td><%= game.team_two_score %></td>
+		<td><%= game.created_at_friendly %></td>
+		<!-- <%= game.id %> -->
+	</tr>
+	<% end %>
+</table>
+<br/>
+<a href="/games/new">New Game</a>
