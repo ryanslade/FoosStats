@@ -20,11 +20,39 @@ describe "Foos Stats" do
     5.times { Game.create(:team_one_attack => 1, :team_one_defense => 2, :team_two_attack => 3, :team_two_defense => 4, :team_one_score => 8, :team_two_score => 10) }
   end
 
+  # Integration testing
+
   it "should redirect to /games/recent when pointed at /" do
     get "/"
     follow_redirect!
     last_request.url.should == "http://example.org/games/recent"
     last_response.should be_ok
+  end
+
+  it "should create a new game when posted to /games/create" do
+    before_count = Game.count
+    begin
+      post "/games/create", params = {:team_one_attack => 1, :team_one_defense => 2, :team_two_attack => 3, :team_two_defense => 4, :team_one_score => 10, :team_two_score => 8}
+      Game.count.should == before_count+1
+      follow_redirect!
+      last_request.url.should == "http://example.org/games/recent"
+      last_response.should be_ok
+    ensure
+      Game.last.destroy if Game.count > before_count
+    end
+  end
+
+  it "should should create a new player when posted to /players/create" do
+    before_count = Player.count
+    begin
+      post "/players/create", params = {:first_name => "firstname", :last_name => "lastname", :email => "testemail@test.com"}
+      Player.count.should == before_count+1
+      follow_redirect!
+      last_request.url.should == "http://example.org/players"
+      last_response.should be_ok
+    ensure
+      Player.last.destroy if Player.count > before_count
+    end
   end
 
   # Game testing
