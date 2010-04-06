@@ -1,4 +1,4 @@
-[X] Add validation.. Done for Player and Game. Should probably print errors
+[ ] Add validation.. Done for Player and Game. Should probably print errors
 [ ] Getting a list of Games should include the Player objects in one SQL statement
 [ ] Common object properties should be moved out (eg. creatd_at)
 
