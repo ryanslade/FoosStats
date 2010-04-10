@@ -23,6 +23,7 @@ end
 post "/players/create" do
   player = Player.create(params)
   if player.save
+    flash[:notice] = "Player was succesfully created"
     redirect "/players"
   else
     redirect "/players/new"

@@ -51,6 +51,7 @@ describe "Foos Stats" do
       follow_redirect!
       last_request.url.should == "http://example.org/players"
       last_response.should be_ok
+      last_response.body.include?("Player was succesfully created").should be_true
     ensure
       Player.last.destroy if Player.count > before_count
     end
