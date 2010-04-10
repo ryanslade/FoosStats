@@ -2,10 +2,14 @@ require "rubygems"
 require "sinatra"
 require "datamapper"
 require "less"
+require "rack-flash"
 
 require File.join(File.dirname(__FILE__), "models")
 
 DataMapper.auto_upgrade!
+
+set :sessions, true
+use Rack::Flash
 
 get "/" do
   redirect "/games/recent"
@@ -45,6 +49,7 @@ end
 post "/games/create" do
   game = Game.create(params)
   if game.save
+    flash[:notice] = "Game was succesfully created"
     redirect "/games/recent"
   else
     redirect "/games/new"
