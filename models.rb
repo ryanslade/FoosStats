@@ -39,6 +39,7 @@ class Game
   end
 
   validates_with_method :check_scores
+  validates_with_method :check_player_cannot_be_on_both_teams
 
   def created_at_friendly
     created_at.strftime("%Y-%m-%d %H:%M:%S")
@@ -59,6 +60,17 @@ class Game
       true
     else
       [false, "At least one team should have a score of 10"]
+    end
+  end
+  
+  def check_player_cannot_be_on_both_teams
+    team_one_players = [team_one_attack, team_one_defense]
+    team_two_players = [team_two_attack, team_two_defense]
+    
+    if team_one_players.any? { |p| team_two_players.include?(p) }
+      [false, "A player cannot be on both teams"]
+    else
+      return true
     end
   end
 end
