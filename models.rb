@@ -46,7 +46,9 @@ class Game
   end
 
   def self.by_date
-    all(:order => [ :created_at.desc ])
+    #all(:order => [ :created_at.desc ])
+    # Seems Time.now is only accurate to the second so tests were all being created at the "same" time
+    all(:order => [ :id.desc ])
   end
 
   def self.recent(limit=10)
@@ -122,6 +124,10 @@ class PlayerStats
         @streaks[game.send(winning_team+position)] += "W"
         @streaks[game.send(losing_team+position)] += "L"
       end
+      
+      @wins[game.send(winning_team+"_defense")] -= 1 if game.send(winning_team+"_defense") == game.send(winning_team+"_attack")
+      @losses[game.send(losing_team+"_defense")] -= 1 if game.send(losing_team+"_defense") == game.send(losing_team+"_attack")
+      @streaks[game.send(losing_team+"_defense")] = @streaks[game.send(losing_team+"_defense")][1..-1] if game.send(losing_team+"_defense") == game.send(losing_team+"_attack")
     end
   end
 
