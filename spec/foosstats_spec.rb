@@ -97,6 +97,9 @@ describe "Foos Stats" do
     stats.losses[3].should == 9
     stats.wins[4].should == 6
     stats.losses[4].should == 9
+    
+    stats.wins[5].should == 0
+    stats.losses[5].should == 0
   end
 
   it "should calculate the correct streaks" do
@@ -105,12 +108,14 @@ describe "Foos Stats" do
     stats.streaks[2].should == "LLLLLWWWWW"
     stats.streaks[3].should == "LWWWWWWLLL"
     stats.streaks[4].should == "LWWWWWWLLL"
+    stats.streaks[5].should == ""
   end
 
   it "should calculate the correct win / loss ratios" do
     stats = PlayerStats.new
     stats.ratios[1].should == (9.0/6)
     stats.ratios[3].should == (6.0/9)
+    stats.ratios[5].should == 0
   end
 
   it "should find the longest streaks" do
