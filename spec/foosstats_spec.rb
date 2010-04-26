@@ -21,6 +21,7 @@ describe "Foos Stats" do
     
     # Same player can be on one team
     Game.create(:team_one_attack => 1, :team_one_defense => 1, :team_two_attack => 3, :team_two_defense => 4, :team_one_score => 8, :team_two_score => 10)
+    Game.create(:team_one_attack => 1, :team_one_defense => 1, :team_two_attack => 3, :team_two_defense => 4, :team_one_score => 10, :team_two_score => 8)
   end
 
   # Integration testing
@@ -87,29 +88,29 @@ describe "Foos Stats" do
 
   it "should calculate the correct wins and losses" do
     stats = PlayerStats.new
-    stats.wins[1].should == 8
+    stats.wins[1].should == 9
     stats.losses[1].should == 6
     stats.wins[2].should == 8
     stats.losses[2].should == 5
     
     stats.wins[3].should == 6
-    stats.losses[3].should == 8
+    stats.losses[3].should == 9
     stats.wins[4].should == 6
-    stats.losses[4].should == 8
+    stats.losses[4].should == 9
   end
 
   it "should calculate the correct streaks" do
     stats = PlayerStats.new
-    stats.streaks[1].should == "LLLLLLWWWW"
+    stats.streaks[1].should == "WLLLLLLWWW"
     stats.streaks[2].should == "LLLLLWWWWW"
-    stats.streaks[3].should == "WWWWWWLLLL"
-    stats.streaks[4].should == "WWWWWWLLLL"
+    stats.streaks[3].should == "LWWWWWWLLL"
+    stats.streaks[4].should == "LWWWWWWLLL"
   end
 
   it "should calculate the correct win / loss ratios" do
     stats = PlayerStats.new
-    stats.ratios[1].should == (8.0/6)
-    stats.ratios[3].should == (6.0/8)
+    stats.ratios[1].should == (9.0/6)
+    stats.ratios[3].should == (6.0/9)
   end
 
   it "should find the longest streaks" do

@@ -118,16 +118,21 @@ class PlayerStats
       winning_team = game.team_one_score > game.team_two_score ? "team_one" : "team_two"
       losing_team  = game.team_one_score < game.team_two_score ? "team_one" : "team_two"
 
-      for position in ["_attack", "_defense"] do
-        @wins[game.send(winning_team+position)] += 1
-        @losses[game.send(losing_team+position)] += 1
-        @streaks[game.send(winning_team+position)] += "W"
-        @streaks[game.send(losing_team+position)] += "L"
+      for team in [winning_team, losing_team] do
+        players = [game.send(team+"_attack"), game.send(team+"_defense")].uniq
+        if team == winning_team
+          for player in players
+            @wins[player] += 1
+            @streaks[player] += "W"
+          end
+        else
+          for player in players
+            @losses[player] += 1
+            @streaks[player] += "L"
+          end
+        end  
       end
       
-      @wins[game.send(winning_team+"_defense")] -= 1 if game.send(winning_team+"_defense") == game.send(winning_team+"_attack")
-      @losses[game.send(losing_team+"_defense")] -= 1 if game.send(losing_team+"_defense") == game.send(losing_team+"_attack")
-      @streaks[game.send(losing_team+"_defense")] = @streaks[game.send(losing_team+"_defense")][1..-1] if game.send(losing_team+"_defense") == game.send(losing_team+"_attack")
     end
   end
 
