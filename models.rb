@@ -58,22 +58,11 @@ class Game
   private
 
   def check_scores
-    if team_one_score == 10 || team_two_score == 10
-      true
-    else
-      [false, "At least one team should have a score of 10"]
-    end
+    (team_one_score == 10 || team_two_score == 10) ? true : [false, "At least one team should have a score of 10"]
   end
   
   def check_player_cannot_be_on_both_teams
-    team_one_players = [team_one_attack, team_one_defense]
-    team_two_players = [team_two_attack, team_two_defense]
-    
-    if team_one_players.any? { |p| team_two_players.include?(p) }
-      [false, "A player cannot be on both teams"]
-    else
-      return true
-    end
+    [team_one_attack, team_one_defense].any? { |p| [team_two_attack, team_two_defense].include?(p) } ? [false, "A player cannot be on both teams"] : true
   end
 end
 
