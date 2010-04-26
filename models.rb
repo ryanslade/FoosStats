@@ -60,7 +60,7 @@ class Game
   def check_scores
     (team_one_score == 10 || team_two_score == 10) ? true : [false, "At least one team should have a score of 10"]
   end
-  
+
   def check_player_cannot_be_on_both_teams
     [team_one_attack, team_one_defense].any? { |p| [team_two_attack, team_two_defense].include?(p) } ? [false, "A player cannot be on both teams"] : true
   end
@@ -107,21 +107,19 @@ class PlayerStats
       winning_team = game.team_one_score > game.team_two_score ? "team_one" : "team_two"
       losing_team  = game.team_one_score < game.team_two_score ? "team_one" : "team_two"
 
-      for team in [winning_team, losing_team] do
-        players = [game.send(team+"_attack"), game.send(team+"_defense")].uniq
-        if team == winning_team
-          for player in players
-            @wins[player] += 1
-            @streaks[player] += "W"
-          end
-        else
-          for player in players
-            @losses[player] += 1
-            @streaks[player] += "L"
-          end
-        end  
+      winning_players = [game.send(winning_team+"_attack"), game.send(winning_team+"_defense")].uniq
+      losing_players = [game.send(losing_team+"_attack"), game.send(losing_team+"_defense")].uniq
+
+      for player in winning_players do
+        @wins[player] += 1
+        @streaks[player] += "W"
       end
-      
+
+      for player in losing_players do
+        @losses[player] += 1
+        @streaks[player] += "L"
+      end
+
     end
   end
 
