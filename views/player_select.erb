@@ -1,4 +1,8 @@
 <option value=0>Please select</option>
 <% for player in @players do %>
-<option value=<%= player.id %>><%= player.name %></option>
+	<% if current && player.id == current %>
+		<option selected="true" value=<%= player.id %>><%= player.name %></option>
+	<% else %>
+		<option value=<%= player.id %>><%= player.name %></option>
+	<% end %>
 <% end %>

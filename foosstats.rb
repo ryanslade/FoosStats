@@ -43,6 +43,13 @@ get "/games/recent" do
 end
 
 get "/games/new" do
+  @game = Game.new
+  @players = Player.order_by_name
+  erb :games
+end
+
+get "/games/another" do
+  @game = Game.last
   @players = Player.order_by_name
   erb :games
 end

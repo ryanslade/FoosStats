@@ -1,6 +1,7 @@
 [ ] Add validation.. Done for Player and Game. Should probably print errors
 [ ] Getting a list of Games should include the Player objects in one SQL statement
 [ ] Common object properties should be moved out (eg. creatd_at)
+[ ] Use something like watir to check /games/another
 
 [X] Try and get tests to use an in memory sqlite3 db
 [X] Ability to delete games

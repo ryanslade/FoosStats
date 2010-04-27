@@ -2,31 +2,41 @@
 	<h3>Record new game:</h3>
 	Team One Attacker: 
 		<select name="team_one_attack">
-			<%= erb(:player_select, :layout => false) %>
+			<%= erb(:player_select, :layout => false, :locals => {:current => @game.team_one_defense} ) %>
 		</select>
 		<br/>
-	Team One Defender: 	<select name="team_one_defense">
-			<%= erb(:player_select, :layout => false) %>
+	
+	Team One Defender: 	
+		<select name="team_one_defense">
+			<%= erb(:player_select, :layout => false, :locals => {:current => @game.team_one_attack} ) %>
 		</select>
 		<br/>
-	Team One Score 	<select name="team_one_score">
-				<%= erb(:score_select, :layout => false) %>
-			</select>
-			<br/>
-			<br/>
-	Team Two Attacker: <select name="team_two_attack">
-		<%= erb(:player_select, :layout => false) %>
-	</select>
+	
+	Team One Score 	
+		<select name="team_one_score">
+			<%= erb(:score_select, :layout => false) %>
+		</select>
+		<br/>
+		<br/>
+	
+	Team Two Attacker: 
+		<select name="team_two_attack">
+			<%= erb(:player_select, :layout => false, :locals => {:current => @game.team_two_defense} ) %>
+		</select>
+		<br/>
+	
+	Team Two Defender: 
+		<select name="team_two_defense">
+			<%= erb(:player_select, :layout => false, :locals => {:current => @game.team_two_attack} ) %>
+		</select>
 	<br/>
-	Team Two Defender: <select name="team_two_defense">
-		<%= erb(:player_select, :layout => false) %>
-	</select>
-	<br/>
-	Team Two Score 	<select name="team_two_score">
-				<%= erb(:score_select, :layout => false) %>
-			</select>
-			<br/>
-			<br/>
+	
+	Team Two Score 	
+		<select name="team_two_score">
+			<%= erb(:score_select, :layout => false) %>
+		</select>
+		<br/>
+		<br/>
 	<input id="update-button" value="Record" type="submit">
 </form>
 	
