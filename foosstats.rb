@@ -43,7 +43,7 @@ get "/games/recent" do
 end
 
 get "/games/new" do
-  @game = Game.new
+  @game = Game.new # Empty game so that the view works for /new and /another
   @players = Player.order_by_name
   erb :games
 end
@@ -73,3 +73,18 @@ get "/stylesheet.css" do
   content_type "text/css", :charset => "utf-8"
   less :stylesheet
 end
+
+helpers do
+  def streaks_to_images(streak)
+    beer = "/images/icon_beer.gif"
+    turd = "/images/icon_turd.gif"
+    streak = streak.gsub("W", image(beer))
+    streak = streak.gsub("L", image(turd))
+    streak
+  end
+  
+  def image(url)
+    "<img src='#{url}' />"
+  end
+end
+

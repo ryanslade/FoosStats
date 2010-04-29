@@ -12,7 +12,7 @@
 		<td><%= @stats.wins[player.id] %></td>
 		<td><%= @stats.losses[player.id] %></td>
 		<td><%= format("%.3f", @stats.ratios[player.id]) %></td>
-		<td><%= @stats.streaks[player.id] %></td>
+		<td><%= streaks_to_images(@stats.streaks[player.id]) %></td>
 	</tr>
 	<% end %>
 </table>
