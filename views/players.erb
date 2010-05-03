@@ -7,7 +7,7 @@
 		<th>Win/Loss</th>
 		<th>Current Form</th>
 	</tr>
-	<% for player in @players do %>
+	<% for player in @sorted_players do %>
 	<tr>
 		<td><%= player.name %></td>
 		<td><%= @stats.played[player.id] %></td>

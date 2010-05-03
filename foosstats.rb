@@ -31,8 +31,9 @@ post "/players/create" do
 end
 
 get "/players" do
-  @players = Player.order_by_name
   @stats = PlayerStats.new
+  @players = Player.order_by_name
+  @sorted_players = @players.sort_by { |p| @stats.ratios[p] }
   erb :players
 end
 
