@@ -33,7 +33,7 @@ end
 get "/players" do
   @stats = PlayerStats.new
   @players = Player.order_by_name
-  @sorted_players = @players.sort_by { |p| @stats.ratios[p] }
+  @sorted_players = @players.sort { |a, b| @stats.ratios[a.id] <=> @stats.ratios[b.id] }.reverse
   erb :players
 end
 
