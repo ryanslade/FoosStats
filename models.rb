@@ -67,10 +67,11 @@ class Game
 end
 
 class PlayerStats
-  attr_reader :wins, :losses, :ratios, :streaks, :longest_wins, :longest_losses
+  attr_reader :played, :wins, :losses, :ratios, :streaks, :longest_wins, :longest_losses
 
   def initialize()
     @games = Game.by_date
+    @played = Hash.new(0)
     @wins = Hash.new(0)
     @losses = Hash.new(0)
     @ratios = Hash.new(0)
@@ -119,6 +120,8 @@ class PlayerStats
         @losses[player] += 1
         @streaks[player] += "L"
       end
+
+      (winning_players+losing_players).each { |p| @played[p] += 1 }
 
     end
   end

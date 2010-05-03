@@ -1,6 +1,7 @@
 <table border="0" cellspacing="5" cellpadding="5">
 	<tr>
 		<th>Name</th>
+		<th>Played</th>
 		<th>Wins</th>
 		<th>Losses</th>
 		<th>Win/Loss</th>
@@ -9,6 +10,7 @@
 	<% for player in @players do %>
 	<tr>
 		<td><%= player.name %></td>
+		<td><%= @stats.played[player.id] %></td>
 		<td><%= @stats.wins[player.id] %></td>
 		<td><%= @stats.losses[player.id] %></td>
 		<td><%= format("%.3f", @stats.ratios[player.id]) %></td>

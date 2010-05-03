@@ -90,16 +90,21 @@ describe "Foos Stats" do
     stats = PlayerStats.new
     stats.wins[1].should == 9
     stats.losses[1].should == 6
+    stats.played[1].should == 15
     stats.wins[2].should == 8
     stats.losses[2].should == 5
+    stats.played[2].should == 13
     
     stats.wins[3].should == 6
     stats.losses[3].should == 9
+    stats.played[3].should == 15
     stats.wins[4].should == 6
     stats.losses[4].should == 9
+    stats.played[4].should == 15
     
     stats.wins[5].should == 0
     stats.losses[5].should == 0
+    stats.played[5].should == 0
   end
 
   it "should calculate the correct streaks" do
