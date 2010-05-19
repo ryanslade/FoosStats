@@ -67,7 +67,7 @@ class Game
 end
 
 class PlayerStats
-  attr_reader :played, :wins, :losses, :ratios, :streaks, :longest_wins, :longest_losses
+  attr_reader :played, :wins, :losses, :ratios, :streaks, :longest_wins, :longest_losses, :average_goals_scored
 
   def initialize()
     @games = Game.by_date
@@ -78,11 +78,13 @@ class PlayerStats
     @streaks = Hash.new("")
     @longest_wins = []
     @longest_losses = []
+    @average_goals_scored = Hash.new(0)
 
     calculate_wins_and_streaks
     calculate_win_loss_ratios
     calculate_longest_streaks("longest_wins", /W+/)
     calculate_longest_streaks("longest_losses", /L+/)
+    calculate_average_goals
     trim_streaks
   end
 
@@ -122,11 +124,28 @@ class PlayerStats
       end
 
       (winning_players+losing_players).each { |p| @played[p] += 1 }
-
     end
   end
 
   def calculate_win_loss_ratios
     (@wins.keys+@losses.keys).uniq.each { |k| @ratios[k] = @wins[k].to_f / @losses[k] }
+  end
+  
+  def calculate_average_goals
+    goals_scored = {}
+    for game in @games do
+      goals_scored[game.team_one_attack] = [] unless goals_scored[game.team_one_attack]
+      goals_scored[game.team_two_attack] = [] unless goals_scored[game.team_two_attack]
+      
+      goals_scored[game.team_one_attack] << game.team_one_score
+      goals_scored[game.team_two_attack] << game.team_two_score
+    end
+    goals_scored.each { |k,v| @average_goals_scored[k] = average(v) }
+  end
+  
+  private
+  
+  def average(arr)
+    arr.inject(0) { |mem, var| mem+var }.to_f / arr.length
   end
 end

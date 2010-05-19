@@ -129,4 +129,9 @@ describe "Foos Stats" do
     stats.longest_losses.should == [8, [3,4]]
   end
 
+  it "should record the average goals scored when in attack" do
+    stats = PlayerStats.new
+    stats.average_goals_scored[1].should == 9.2
+  end
+
 end
