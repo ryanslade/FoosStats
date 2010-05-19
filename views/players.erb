@@ -5,6 +5,8 @@
 		<th>Wins</th>
 		<th>Losses</th>
 		<th>Win/Loss</th>
+		<th>Average scored</th>
+		<th>Average conceded</th>
 		<th>Current Form</th>
 	</tr>
 	<% for player in @sorted_players do %>
@@ -14,6 +16,8 @@
 		<td><%= @stats.wins[player.id] %></td>
 		<td><%= @stats.losses[player.id] %></td>
 		<td><%= format("%.3f", @stats.ratios[player.id]) %></td>
+		<td><%= format("%.3f", @stats.average_goals_scored[player.id]) %></td>
+		<td><%= format("%.3f", @stats.average_goals_conceded[player.id]) %></td>
 		<td><%= streaks_to_images(@stats.streaks[player.id]) %></td>
 	</tr>
 	<% end %>
