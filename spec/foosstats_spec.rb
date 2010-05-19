@@ -134,4 +134,9 @@ describe "Foos Stats" do
     stats.average_goals_scored[1].should == 9.2
   end
 
+  it "should recored the average goals conceded when in defense" do
+    stats = PlayerStats.new
+    stats.average_goals_conceded[2].should == 8.76923076923077
+  end
+
 end
