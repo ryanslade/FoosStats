@@ -131,29 +131,30 @@ class PlayerStats
   def calculate_win_loss_ratios
     (@wins.keys+@losses.keys).uniq.each { |k| @ratios[k] = @wins[k].to_f / @losses[k] }
   end
-  
+
   def calculate_average_goals
     goals_scored = {}
     goals_conceded = {}
-    
+
     for game in @games do
-      goals_scored[game.team_one_attack] = [] unless goals_scored[game.team_one_attack]
-      goals_scored[game.team_two_attack] = [] unless goals_scored[game.team_two_attack]
-      goals_conceded[game.team_one_defense] = [] unless goals_conceded[game.team_one_defense]
-      goals_conceded[game.team_two_defense] = [] unless goals_conceded[game.team_two_defense]
-      
-      goals_scored[game.team_one_attack] << game.team_one_score
-      goals_scored[game.team_two_attack] << game.team_two_score
-      goals_conceded[game.team_one_defense] << game.team_two_score
-      goals_conceded[game.team_two_defense] << game.team_one_score
+      other = {"team_one" => "team_two", "team_two" => "team_one"}
+      ["team_one", "team_two"].each do |team|
+        goals_scored[game.send(team+"_attack")] = [] unless goals_scored[game.send(team+"_attack")]
+        goals_scored[game.send(team+"_attack")] << game.send(team+"_score")
+
+        goals_conceded[game.send(team+"_defense")] = [] unless goals_conceded[game.send(team+"_defense")]
+        goals_conceded[game.send(team+"_defense")] << game.send(other[team]+"_score")
+      end
     end
-    goals_scored.each { |k,v| @average_goals_scored[k] = average(v) }
-    goals_conceded.each { |k,v| @average_goals_conceded[k] = average(v) }
-  end
-  
-  private
-  
-  def average(arr)
-    arr.inject(0) { |mem, var| mem+var }.to_f / arr.length
+    goals_scored.each { |k,v| @average_goals_scored[k] = v.average }
+    goals_conceded.each { |k,v| @average_goals_conceded[k] = v.average }
   end
 end
+
+# Helpers
+class Array
+  def average
+    self.inject(0) { |mem, var| mem+var }.to_f / self.length
+  end
+end
+
