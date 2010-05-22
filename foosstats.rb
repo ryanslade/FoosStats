@@ -1,7 +1,6 @@
 require "rubygems"
 require "sinatra"
 require "datamapper"
-require "less"
 require "rack-flash"
 
 require File.join(File.dirname(__FILE__), "models")
@@ -68,11 +67,6 @@ end
 get "/games/assram/:id" do
   Game.get(params[:id]).destroy
   redirect "/games/recent"
-end
-
-get "/stylesheet.css" do
-  content_type "text/css", :charset => "utf-8"
-  less :stylesheet
 end
 
 helpers do
