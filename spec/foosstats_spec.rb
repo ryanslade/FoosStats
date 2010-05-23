@@ -141,10 +141,10 @@ describe "Foos Stats" do
 
   it "should record each players most popular teammate" do
     stats = PlayerStats.new
-    stats.most_popular_teammate[1].should == 2
-    stats.most_popular_teammate[2].should == 1
-    stats.most_popular_teammate[3].should == 4
-    stats.most_popular_teammate[4].should == 3
+    stats.most_popular_teammate[1].should == [2]
+    stats.most_popular_teammate[2].should == [1]
+    stats.most_popular_teammate[3].should == [4]
+    stats.most_popular_teammate[4].should == [3]
   end
-
+  
 end
