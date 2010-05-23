@@ -81,5 +81,9 @@ helpers do
   def image(url)
     "<img src='#{url}' />"
   end
+  
+  def format_most_popular(popular)
+    popular.collect { |p| @players.get(p).name }.join(", ")
+  end
 end
 
