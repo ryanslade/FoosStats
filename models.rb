@@ -68,7 +68,7 @@ end
 
 class PlayerStats
   attr_reader :played, :wins, :losses, :ratios, :streaks, :longest_wins, :longest_losses 
-  attr_reader :average_goals_scored, :average_goals_conceded, :most_popular_teammate
+  attr_reader :average_goals_scored, :average_goals_conceded, :most_popular_teammate, :most_popular_opponent
 
   def initialize()
     @games = Game.by_date
@@ -82,6 +82,7 @@ class PlayerStats
     @average_goals_scored = Hash.new(0)
     @average_goals_conceded = Hash.new(0)
     @most_popular_teammate = {}
+    @most_popular_opponent = {}
 
     calculate_wins_and_streaks
     calculate_win_loss_ratios
@@ -138,6 +139,7 @@ class PlayerStats
     goals_scored = {}
     goals_conceded = {}
     played_with = {}
+    played_against = {}
 
     for game in @games do
       other = {"team_one" => "team_two", "team_two" => "team_one"}
@@ -153,11 +155,20 @@ class PlayerStats
         
         played_with[game.send(team+"_attack")] << game.send(team+"_defense")
         played_with[game.send(team+"_defense")] << game.send(team+"_attack")
+        
+        played_against[game.send(team+"_attack")] = [] unless played_against[game.send(team+"_attack")]
+        played_against[game.send(team+"_defense")] = [] unless played_against[game.send(team+"_defense")]
+        
+        played_against[game.send(team+"_attack")] << game.send(other[team]+"_attack")
+        played_against[game.send(team+"_attack")] << game.send(other[team]+"_defense")
+        played_against[game.send(team+"_defense")] << game.send(other[team]+"_attack")
+        played_against[game.send(team+"_defense")] << game.send(other[team]+"_defense")
       end
     end
     goals_scored.each { |k,v| @average_goals_scored[k] = v.average }
     goals_conceded.each { |k,v| @average_goals_conceded[k] = v.average }
     played_with.each { |k,v| @most_popular_teammate[k] = v.most_common }
+    played_against.each { |k,v| @most_popular_opponent[k] = v.most_common }
   end
   
 end

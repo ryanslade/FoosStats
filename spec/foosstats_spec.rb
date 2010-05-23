@@ -147,4 +147,12 @@ describe "Foos Stats" do
     stats.most_popular_teammate[4].should == [3]
   end
   
+  it "should record each players most popular opponents" do
+    stats = PlayerStats.new
+    stats.most_popular_opponent[1].should == [3,4]
+    stats.most_popular_opponent[2].should == [3,4]
+    stats.most_popular_opponent[3].should == [1]
+    stats.most_popular_opponent[4].should == [1]
+  end
+  
 end
