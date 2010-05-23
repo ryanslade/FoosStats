@@ -139,4 +139,12 @@ describe "Foos Stats" do
     stats.average_goals_conceded[2].should == 8.76923076923077
   end
 
+  it "should record each players most popular teammate" do
+    stats = PlayerStats.new
+    stats.most_popular_teammate[1].should == 2
+    stats.most_popular_teammate[2].should == 1
+    stats.most_popular_teammate[3].should == 4
+    stats.most_popular_teammate[4].should == 3
+  end
+
 end

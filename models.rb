@@ -67,7 +67,8 @@ class Game
 end
 
 class PlayerStats
-  attr_reader :played, :wins, :losses, :ratios, :streaks, :longest_wins, :longest_losses, :average_goals_scored, :average_goals_conceded
+  attr_reader :played, :wins, :losses, :ratios, :streaks, :longest_wins, :longest_losses 
+  attr_reader :average_goals_scored, :average_goals_conceded, :most_popular_teammate
 
   def initialize()
     @games = Game.by_date
@@ -80,12 +81,13 @@ class PlayerStats
     @longest_losses = []
     @average_goals_scored = Hash.new(0)
     @average_goals_conceded = Hash.new(0)
+    @most_popular_teammate = {}
 
     calculate_wins_and_streaks
     calculate_win_loss_ratios
     calculate_longest_streaks("longest_wins", /W+/)
     calculate_longest_streaks("longest_losses", /L+/)
-    calculate_average_goals
+    calculate_average_goals_and_most_popular
     trim_streaks
   end
 
@@ -132,9 +134,10 @@ class PlayerStats
     (@wins.keys+@losses.keys).uniq.each { |k| @ratios[k] = @wins[k].to_f / @losses[k] }
   end
 
-  def calculate_average_goals
+  def calculate_average_goals_and_most_popular
     goals_scored = {}
     goals_conceded = {}
+    played_with = {}
 
     for game in @games do
       other = {"team_one" => "team_two", "team_two" => "team_one"}
@@ -144,11 +147,19 @@ class PlayerStats
 
         goals_conceded[game.send(team+"_defense")] = [] unless goals_conceded[game.send(team+"_defense")]
         goals_conceded[game.send(team+"_defense")] << game.send(other[team]+"_score")
+        
+        played_with[game.send(team+"_attack")] = [] unless played_with[game.send(team+"_attack")]
+        played_with[game.send(team+"_defense")] = [] unless played_with[game.send(team+"_defense")]
+        
+        played_with[game.send(team+"_attack")] << game.send(team+"_defense")
+        played_with[game.send(team+"_defense")] << game.send(team+"_attack")
       end
     end
     goals_scored.each { |k,v| @average_goals_scored[k] = v.average }
     goals_conceded.each { |k,v| @average_goals_conceded[k] = v.average }
+    played_with.each { |k,v| @most_popular_teammate[k] = v.most_common }
   end
+  
 end
 
 # Helpers
@@ -156,5 +167,10 @@ class Array
   def average
     self.inject(0) { |mem, var| mem+var }.to_f / self.length
   end
+  
+  def most_common
+    counts = Hash.new(0)
+    self.each { |i| counts[i] += 1 }
+    counts.sort { |a,b| a[1]<=>b[1] }.last[0]
+  end
 end
-
