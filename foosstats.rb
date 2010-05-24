@@ -36,6 +36,11 @@ get "/players" do
   erb :players
 end
 
+get "/players/*/vs/*" do
+  @players = params[:splat].collect { |p| Player.get(p) }
+  erb :playervs
+end
+
 get "/games/recent" do
   @games_count = Game.count
   @games = Game.recent
@@ -77,13 +82,12 @@ helpers do
     streak = streak.gsub("L", image(turd))
     streak
   end
-  
+
   def image(url)
     "<img src='#{url}' />"
   end
-  
+
   def format_most_popular(popular)
     popular ? popular.collect { |p| @players.get(p).name }.join(", ") : ""
   end
 end
-

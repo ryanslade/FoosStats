@@ -55,6 +55,10 @@ class Game
     by_date.all(:limit => limit)
   end
 
+  def self.versus(players)
+    by_date
+  end
+
   private
 
   def check_scores
@@ -70,8 +74,9 @@ class PlayerStats
   attr_reader :played, :wins, :losses, :ratios, :streaks, :longest_wins, :longest_losses 
   attr_reader :average_goals_scored, :average_goals_conceded, :most_popular_teammates, :most_popular_opponents
 
-  def initialize()
-    @games = Game.by_date
+  def initialize(players=[])
+    raise "Should be initialsed with 0 or 2 players" unless [0,2].include?(players.length)
+    @games = (players.length == 2) ? Game.by_date.versus(players) : Game.by_date
     @played = Hash.new(0)
     @wins = Hash.new(0)
     @losses = Hash.new(0)

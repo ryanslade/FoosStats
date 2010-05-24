@@ -18,7 +18,7 @@ describe "Foos Stats" do
 
     8.times { Game.create(:team_one_attack => 1, :team_one_defense => 2, :team_two_attack => 3, :team_two_defense => 4, :team_one_score => 10, :team_two_score => 8) }
     5.times { Game.create(:team_one_attack => 1, :team_one_defense => 2, :team_two_attack => 3, :team_two_defense => 4, :team_one_score => 8, :team_two_score => 10) }
-    
+
     # Same player can be on one team
     Game.create(:team_one_attack => 1, :team_one_defense => 1, :team_two_attack => 3, :team_two_defense => 4, :team_one_score => 8, :team_two_score => 10)
     Game.create(:team_one_attack => 1, :team_one_defense => 1, :team_two_attack => 3, :team_two_defense => 4, :team_one_score => 10, :team_two_score => 8)
@@ -60,7 +60,7 @@ describe "Foos Stats" do
       Player.last.destroy if Player.count > before_count
     end
   end
-  
+
   # Game testing
 
   it "should should validate that players have been added" do
@@ -84,7 +84,27 @@ describe "Foos Stats" do
     g.valid?.should be false
   end
 
+  it "should bring back only games with the two players opposite each other" do
+    Game.versus([1,3]).length.should == 15
+    Game.versus([1,2]).length.should == 0
+  end
+
   # Player stats testing
+
+  it "should should allow player stats to be created with 2 or no players" do
+    lambda { PlayerStats.new([1,3]) }.should_not raise_error(error)
+    lambda { PlayerStats.new() }.should_not raise_error(error)
+    lambda { PlayerStats.new([1]) }.should raise_error(StandardError)
+    lambda { PlayerStats.new([1,2,3]) }.should raise_error(StandardError)
+  end
+
+  it "should only bring back stats for 2 players" do
+    stats = PlayerStats.new([1,3])
+    stats.played[1].should == 15
+    stats.played[2].should == 0
+    stats.played[3].should == 15
+    stats.played[4].should == 0
+  end
 
   it "should calculate the correct wins and losses" do
     stats = PlayerStats.new
@@ -94,14 +114,14 @@ describe "Foos Stats" do
     stats.wins[2].should == 8
     stats.losses[2].should == 5
     stats.played[2].should == 13
-    
+
     stats.wins[3].should == 6
     stats.losses[3].should == 9
     stats.played[3].should == 15
     stats.wins[4].should == 6
     stats.losses[4].should == 9
     stats.played[4].should == 15
-    
+
     stats.wins[5].should == 0
     stats.losses[5].should == 0
     stats.played[5].should == 0
@@ -146,7 +166,7 @@ describe "Foos Stats" do
     stats.most_popular_teammates[3].should == [4]
     stats.most_popular_teammates[4].should == [3]
   end
-  
+
   it "should record each players most popular opponents" do
     stats = PlayerStats.new
     stats.most_popular_opponents[1].should == [3,4]
@@ -154,5 +174,13 @@ describe "Foos Stats" do
     stats.most_popular_opponents[3].should == [1]
     stats.most_popular_opponents[4].should == [1]
   end
-  
+
+  # Versus stuff
+
+  it "should respond to /players/a/vs/b" do
+    get "/players/1/vs/3"
+    last_request.url.should == "http://example.org/players/1/vs/3"
+    last_response.should be_ok
+  end
+
 end
