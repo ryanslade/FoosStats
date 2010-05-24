@@ -150,19 +150,16 @@ class PlayerStats
         goals_conceded[game.send(team+"_defense")] = [] unless goals_conceded[game.send(team+"_defense")]
         goals_conceded[game.send(team+"_defense")] << game.send(other[team]+"_score")
         
-        played_with[game.send(team+"_attack")] = [] unless played_with[game.send(team+"_attack")]
-        played_with[game.send(team+"_defense")] = [] unless played_with[game.send(team+"_defense")]
+        ["_attack", "_defense"].each do |pos|
+          played_with[game.send(team+pos)] = [] unless played_with[game.send(team+pos)]
+          played_against[game.send(team+pos)] = [] unless played_against[game.send(team+"_attack")]
+          played_against[game.send(team+pos)] = [] unless played_against[game.send(team+"_defense")]
+          played_against[game.send(team+pos)] << game.send(other[team]+"_attack")
+          played_against[game.send(team+pos)] << game.send(other[team]+"_defense")
+        end
         
         played_with[game.send(team+"_attack")] << game.send(team+"_defense")
         played_with[game.send(team+"_defense")] << game.send(team+"_attack")
-        
-        played_against[game.send(team+"_attack")] = [] unless played_against[game.send(team+"_attack")]
-        played_against[game.send(team+"_defense")] = [] unless played_against[game.send(team+"_defense")]
-        
-        played_against[game.send(team+"_attack")] << game.send(other[team]+"_attack")
-        played_against[game.send(team+"_attack")] << game.send(other[team]+"_defense")
-        played_against[game.send(team+"_defense")] << game.send(other[team]+"_attack")
-        played_against[game.send(team+"_defense")] << game.send(other[team]+"_defense")
       end
     end
     goals_scored.each { |k,v| @average_goals_scored[k] = v.average }
