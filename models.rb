@@ -56,7 +56,9 @@ class Game
   end
 
   def self.versus(players)
-    by_date
+    first  = by_date.all(:conditions => ["(team_one_attack = ? OR team_one_defense = ?) AND (team_two_attack = ? OR team_two_defense = ?)", players[0], players[0], players[1], players[1]])
+    second = by_date.all(:conditions => ["(team_one_attack = ? OR team_one_defense = ?) AND (team_two_attack = ? OR team_two_defense = ?)", players[1], players[1], players[2], players[2]])
+    first + second
   end
 
   private
@@ -94,7 +96,7 @@ class PlayerStats
     calculate_longest_streaks("longest_wins", /W+/)
     calculate_longest_streaks("longest_losses", /L+/)
     calculate_average_goals_and_most_popular
-    trim_streaks
+    trim_streaks if players.length != 2
   end
 
   private

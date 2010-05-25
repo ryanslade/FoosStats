@@ -1,0 +1,12 @@
+<form method="post" action="/players/vs">
+		<select name="player_one">
+			<%= erb(:player_select, :layout => false, :locals => {:current => @game.team_one_attack}) %>
+		</select>
+		VS
+		<select name="player_two">
+			<%= erb(:player_select, :layout => false, :locals => {:current => @game.team_one_attack}) %>
+		</select>
+		
+		<input id="update-button" value="Fight!" type="submit">
+</form>
+<a href="/players">Back to players</a>

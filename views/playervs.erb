@@ -1,1 +1,26 @@
-<%= @players[0].name %> vs <%= @players[1].name %>
+<table border="0" cellspacing="5" cellpadding="5">
+	<tr>
+		<th>Name</th>
+		<th>Played</th>
+		<th>Wins</th>
+		<th>Losses</th>
+		<th>Win/Loss</th>
+		<th>Average scored</th>
+		<th>Average conceded</th>
+		<th>Results</th>
+	</tr>
+	<% for player in @sorted_players do %>
+	<tr>
+		<td><%= player.name %></td>
+		<td><%= @stats.played[player.id] %></td>
+		<td><%= @stats.wins[player.id] %></td>
+		<td><%= @stats.losses[player.id] %></td>
+		<td><%= format("%.3f", @stats.ratios[player.id]) %></td>
+		<td><%= format("%.3f", @stats.average_goals_scored[player.id]) %></td>
+		<td><%= format("%.3f", @stats.average_goals_conceded[player.id]) %></td>
+		<td><%= streaks_to_images(@stats.streaks[player.id]) %></td>
+	</tr>
+	<% end %>
+</table>
+
+<a href="/players/vs">Back</a>

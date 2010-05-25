@@ -98,12 +98,18 @@ describe "Foos Stats" do
     lambda { PlayerStats.new([1,2,3]) }.should raise_error(StandardError)
   end
 
-  it "should only bring back stats for 2 players" do
+  it "should only bring back stats for 2 players only" do
     stats = PlayerStats.new([1,3])
     stats.played[1].should == 15
-    stats.played[2].should == 0
+    stats.played[2].should == 13
     stats.played[3].should == 15
-    stats.played[4].should == 0
+    stats.played[4].should == 15
+  end
+
+  it "should not trim streaks in vs mode" do
+    stats = PlayerStats.new([1,3])
+    stats.streaks[1].length.should == 15
+    stats.streaks[4].length.should == 15
   end
 
   it "should calculate the correct wins and losses" do
@@ -176,6 +182,13 @@ describe "Foos Stats" do
   end
 
   # Versus stuff
+
+  it "should redirect to /players/a/vs/b when posted to" do
+    post "/players/vs", params = {:player_one => 1, :player_two => 3}
+    follow_redirect!
+    last_request.url.should == "http://example.org/players/1/vs/3"
+    last_response.should be_ok
+  end
 
   it "should respond to /players/a/vs/b" do
     get "/players/1/vs/3"

@@ -36,8 +36,21 @@ get "/players" do
   erb :players
 end
 
+get '/players/vs' do
+  @game = Game.new # Empty game so that the view works for /new and /another
+  @players = Player.order_by_name
+  erb :choosevs
+end
+
+post '/players/vs' do
+  redirect "/players/#{params[:player_one]}/vs/#{params[:player_two]}"
+end
+
 get "/players/*/vs/*" do
-  @players = params[:splat].collect { |p| Player.get(p) }
+  player_ids = params[:splat].collect { |p| p.to_i }
+  @players = Player.all(:id => player_ids)
+  @stats = PlayerStats.new(@players.collect { |p| p.id })
+  @sorted_players = @players.sort { |a, b| @stats.ratios[a.id] <=> @stats.ratios[b.id] }.reverse
   erb :playervs
 end
 
