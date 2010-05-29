@@ -75,6 +75,13 @@ describe "Foos Stats" do
     end
   end
 
+  it "should show user specific details from /players/:playerid" do
+    player = Player.get(1)
+    get "/players/1"
+    last_response.should be_ok
+    last_response.body.include?(player.name).should be_true
+  end
+
   # Game testing
 
   it "should should validate that players have been added" do

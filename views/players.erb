@@ -13,7 +13,7 @@
 	</tr>
 	<% for player in @sorted_players do %>
 	<tr>
-		<td><%= player.name %></td>
+		<td><%= player_link(player) %></td>
 		<td><%= @stats.played[player.id] %></td>
 		<td><%= @stats.wins[player.id] %></td>
 		<td><%= @stats.losses[player.id] %></td>

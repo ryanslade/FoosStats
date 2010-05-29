@@ -40,6 +40,11 @@ get '/players/vs' do
   setup_stats_view(:view => :choosevs)
 end
 
+get '/players/:playerid' do
+  @player = Player.get(params[:playerid])
+  erb :player
+end
+
 post '/players/vs' do
   redirect "/players/#{params[:player_one]}/vs/#{params[:player_two]}"
 end
@@ -115,6 +120,10 @@ helpers do
   end
 
   def format_most_popular(popular)
-    popular ? popular.collect { |p| @players.get(p).name }.join(", ") : ""
+    popular ? popular.collect { |p| player_link(@players.get(p)) }.join(", ") : ""
+  end
+  
+  def player_link(player)
+    "<a href='/players/#{player.id}'>#{player.name}</a>"
   end
 end

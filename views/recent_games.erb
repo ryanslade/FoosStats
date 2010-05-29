@@ -11,11 +11,11 @@ Showing the latest <%= @games.length %> games out of <%= @games_count %>
 	</tr>
 	<% for game in @games do %>
 	<tr>
-		<td><%= game.team_one_attacker.name %></td>
-		<td><%= game.team_one_defender.name %></td>
+		<td><%= player_link(game.team_one_attacker) %></td>
+		<td><%= player_link(game.team_one_defender) %></td>
 		<td><%= game.team_one_score %></td>
-		<td><%= game.team_two_attacker.name %></td>
-		<td><%= game.team_two_defender.name %></td>
+		<td><%= player_link(game.team_two_attacker) %></td>
+		<td><%= player_link(game.team_two_defender) %></td>
 		<td><%= game.team_two_score %></td>
 		<td><%= game.created_at_friendly %></td>
 		<!-- <%= game.id %> -->
