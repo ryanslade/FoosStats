@@ -52,7 +52,7 @@ class Game
   end
 
   def self.recent(limit=10)
-    by_date.all(:limit => limit)
+    limit == :all ? by_date : by_date.all(:limit => limit)
   end
 
   def self.versus(players)

@@ -55,8 +55,20 @@ get "/players/*/vs/*" do
 end
 
 get "/games/recent" do
+  get_recent_games
+end
+
+get "/games/recent/all" do
+  get_recent_games(:all)
+end
+
+get "/games/recent/:limit" do
+  get_recent_games(params[:limit].to_i)
+end
+
+def get_recent_games(limit=nil)
   @games_count = Game.count
-  @games = Game.recent
+  @games = limit ? Game.recent(limit) : Game.recent
   erb :recent_games
 end
 

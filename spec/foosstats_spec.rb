@@ -33,6 +33,20 @@ describe "Foos Stats" do
     last_response.should be_ok
   end
 
+  it "should should bring back more recent games if path is /games/recent/:limit" do
+    get "/games/recent"
+    last_response.should be_ok
+    last_response.body.scan(/<tr>/).length.should == Game.recent.length+1
+    
+    get "/games/recent/5"
+    last_response.should be_ok
+    last_response.body.scan(/<tr>/).length.should == 6
+    
+    get "/games/recent/all"
+    last_response.should be_ok
+    last_response.body.scan(/<tr>/).length.should == Game.count+1
+  end
+
   it "should create a new game when posted to /games/create" do
     before_count = Game.count
     begin
@@ -87,6 +101,15 @@ describe "Foos Stats" do
   it "should bring back only games with the two players opposite each other" do
     Game.versus([1,3]).length.should == 15
     Game.versus([1,2]).length.should == 0
+  end
+
+  it "should limit recent games to 10 by default" do
+    Game.recent.length.should == 10
+  end
+  
+  it "should limit recent games" do
+    Game.recent(5).length.should == 5
+    Game.recent(:all).length.should == 15
   end
 
   # Player stats testing
