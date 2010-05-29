@@ -37,7 +37,7 @@ get "/players" do
 end
 
 get '/players/vs' do
-  setup_stats_view(:view => :choosevs)
+  setup_stats_view(:view => :choose_vs)
 end
 
 get '/players/:playerid' do
@@ -54,7 +54,7 @@ get "/players/*/vs/*" do
   @players = Player.all(:id => player_ids)
   @stats = PlayerStats.new(@players.collect { |p| p.id })
   @sorted_players = @players.sort { |a, b| @stats.ratios[a.id] <=> @stats.ratios[b.id] }.reverse
-  erb :playervs
+  erb :player_vs
 end
 
 get "/games/recent" do
