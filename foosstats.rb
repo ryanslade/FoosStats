@@ -37,9 +37,7 @@ get "/players" do
 end
 
 get '/players/vs' do
-  @game = Game.new # Empty game so that the view works for /new and /another
-  @players = Player.order_by_name
-  erb :choosevs
+  setup_stats_view(:view => :choosevs)
 end
 
 post '/players/vs' do
@@ -73,15 +71,19 @@ def get_recent_games(limit=nil)
 end
 
 get "/games/new" do
-  @game = Game.new # Empty game so that the view works for /new and /another
-  @players = Player.order_by_name
-  erb :games
+  setup_stats_view
 end
 
 get "/games/another" do
-  @game = Game.last
+  setup_stats_view(:game => Game.last)
+end
+
+def setup_stats_view(options={})
+  options[:game] ||= Game.new
+  options[:view] ||= :games
+  @game = options[:game]
   @players = Player.order_by_name
-  erb :games
+  erb options[:view]
 end
 
 post "/games/create" do

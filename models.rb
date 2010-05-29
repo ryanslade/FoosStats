@@ -169,6 +169,7 @@ class PlayerStats
         played_with[game.send(team+"_defense")] << game.send(team+"_attack")
       end
     end
+    
     goals_scored.each { |k,v| @average_goals_scored[k] = v.average }
     goals_conceded.each { |k,v| @average_goals_conceded[k] = v.average }
     played_with.each { |k,v| @most_popular_teammates[k] = v.most_common }
