@@ -56,7 +56,6 @@ class Game
   end
 
   def self.by_date
-    #all(:order => [ :created_at.desc ])
     # Seems Time.now is only accurate to the second so tests were all being created at the "same" time
     all(:order => [ :id.desc ])
   end
@@ -92,6 +91,7 @@ class PlayerStats
 
   def initialize(players=[])
     raise "Should be initialsed with 0, 1 or 2 players" unless [0,1,2].include?(players.length)
+    
     @games = case players.length
     when 0
       Game.by_date
@@ -100,7 +100,7 @@ class PlayerStats
     when 2
       Game.by_date.versus(players)
     end
-    @games = (players.length == 2) ? Game.by_date.versus(players) : Game.by_date
+    
     @played = Hash.new(0)
     @wins = Hash.new(0)
     @losses = Hash.new(0)
