@@ -57,6 +57,14 @@ get "/players/*/vs/*" do
   erb :player_vs
 end
 
+post '/players/:playerid' do
+  @player = Player.get(params[:playerid])
+  update_params = params.reject { |k,v| not ["description"].include?(k) }
+  @player.update(update_params)
+  flash[:notice] = "#{@player.name} was succesfully updated"
+  redirect "/players/#{@player.id}"
+end
+
 get "/games/recent" do
   get_recent_games
 end

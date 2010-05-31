@@ -24,6 +24,28 @@ describe "Foos Stats" do
     Game.create(:team_one_attack => 1, :team_one_defense => 1, :team_two_attack => 3, :team_two_defense => 4, :team_one_score => 10, :team_two_score => 8)
   end
 
+  # Player testing
+  
+  it "should allow a players profile to use markdown" do
+    player = Player.get(1)
+    player.description.should == "\n"
+    player.description = "Test *markdown*"
+    player.save
+    player.description.should == "<p>Test <em>markdown</em></p>\n"
+    player.raw_description.should == "Test *markdown*"
+  end
+
+  it "should update a players description" do
+    player = Player.get(2)
+    player.description.should == "\n"
+    post "/players/2", params = { :description => "Test *markdown*" }
+    follow_redirect!
+    last_request.url.should == "http://example.org/players/2"
+    last_response.should be_ok
+    player = Player.get(2)
+    player.description.should == "<p>Test <em>markdown</em></p>\n"
+  end
+
   # Integration testing
 
   it "should redirect to /games/recent when pointed at /" do

@@ -1,1 +1,8 @@
-<%= @player.name %>
+<%= @player.name %><br>
+Details:<br/>
+<%= @player.description %><br/>
+<form method="post" action="/players/<%= @player.id%>">	
+	<textarea name="description" rows="5"><%= @player.raw_description %></textarea><br/>
+	
+	<input id="update-button" value="Update" type="submit"/>
+</form>
