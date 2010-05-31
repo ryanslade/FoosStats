@@ -132,6 +132,11 @@ describe "Foos Stats" do
     Game.versus([1,2]).length.should == 0
   end
 
+  it "should should bring back games where specific player was involved" do
+    Game.with_player(1).length.should == 15
+    Game.with_player(2).length.should == 13
+  end
+
   it "should limit recent games to 10 by default" do
     Game.recent.length.should == 10
   end
@@ -143,10 +148,10 @@ describe "Foos Stats" do
 
   # Player stats testing
 
-  it "should should allow player stats to be created with 2 or no players" do
+  it "should should allow player stats to be created with 1, 2 or no players" do
     lambda { PlayerStats.new([1,3]) }.should_not raise_error(error)
     lambda { PlayerStats.new() }.should_not raise_error(error)
-    lambda { PlayerStats.new([1]) }.should raise_error(StandardError)
+    lambda { PlayerStats.new([1]) }.should_not raise_error(StandardError)
     lambda { PlayerStats.new([1,2,3]) }.should raise_error(StandardError)
   end
 

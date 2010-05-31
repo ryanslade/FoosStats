@@ -14,7 +14,7 @@ class Player
   property :first_name, String, :required => true
   property :last_name, String, :required => true
   property :email, String, :format => :email_address
-  property :description, Text, :default => "" 
+  property :description, Text, :default => ""
 
   def description
     RDiscount.new(attribute_get(:description)).to_html
@@ -66,9 +66,13 @@ class Game
   end
 
   def self.versus(players)
-    first  = by_date.all(:conditions => ["(team_one_attack = ? OR team_one_defense = ?) AND (team_two_attack = ? OR team_two_defense = ?)", players[0], players[0], players[1], players[1]])
-    second = by_date.all(:conditions => ["(team_one_attack = ? OR team_one_defense = ?) AND (team_two_attack = ? OR team_two_defense = ?)", players[1], players[1], players[2], players[2]])
+    first  = all(:conditions => ["(team_one_attack = ? OR team_one_defense = ?) AND (team_two_attack = ? OR team_two_defense = ?)", players[0], players[0], players[1], players[1]])
+    second = all(:conditions => ["(team_one_attack = ? OR team_one_defense = ?) AND (team_two_attack = ? OR team_two_defense = ?)", players[1], players[1], players[2], players[2]])
     first + second
+  end
+
+  def self.with_player(player_id)
+    ["team_one_attack", "team_two_attack", "team_one_defense", "team_two_defense"].collect { |q| all(:conditions => ["#{q} = ?", player_id]) }.inject { |m, v| m += v }  
   end
 
   private
@@ -83,11 +87,19 @@ class Game
 end
 
 class PlayerStats
-  attr_reader :played, :wins, :losses, :ratios, :streaks, :longest_wins, :longest_losses 
+  attr_reader :played, :wins, :losses, :ratios, :streaks, :longest_wins, :longest_losses
   attr_reader :average_goals_scored, :average_goals_conceded, :most_popular_teammates, :most_popular_opponents
 
   def initialize(players=[])
-    raise "Should be initialsed with 0 or 2 players" unless [0,2].include?(players.length)
+    raise "Should be initialsed with 0, 1 or 2 players" unless [0,1,2].include?(players.length)
+    @games = case players.length
+    when 0
+      Game.by_date
+    when 1
+      Game.with_player(players.first)
+    when 2
+      Game.by_date.versus(players)
+    end
     @games = (players.length == 2) ? Game.by_date.versus(players) : Game.by_date
     @played = Hash.new(0)
     @wins = Hash.new(0)
@@ -166,7 +178,7 @@ class PlayerStats
 
         goals_conceded[game.send(team+"_defense")] = [] unless goals_conceded[game.send(team+"_defense")]
         goals_conceded[game.send(team+"_defense")] << game.send(other[team]+"_score")
-        
+
         ["_attack", "_defense"].each do |pos|
           played_with[game.send(team+pos)] = [] unless played_with[game.send(team+pos)]
           played_against[game.send(team+pos)] = [] unless played_against[game.send(team+"_attack")]
@@ -174,18 +186,18 @@ class PlayerStats
           played_against[game.send(team+pos)] << game.send(other[team]+"_attack")
           played_against[game.send(team+pos)] << game.send(other[team]+"_defense")
         end
-        
+
         played_with[game.send(team+"_attack")] << game.send(team+"_defense")
         played_with[game.send(team+"_defense")] << game.send(team+"_attack")
       end
     end
-    
+
     goals_scored.each { |k,v| @average_goals_scored[k] = v.average }
     goals_conceded.each { |k,v| @average_goals_conceded[k] = v.average }
     played_with.each { |k,v| @most_popular_teammates[k] = v.most_common }
     played_against.each { |k,v| @most_popular_opponents[k] = v.most_common }
   end
-  
+
 end
 
 # Helpers
@@ -193,7 +205,7 @@ class Array
   def average
     self.inject(0) { |mem, var| mem+var }.to_f / self.length
   end
-  
+
   def most_common
     counts = Hash.new(0)
     self.each { |i| counts[i] += 1 }
