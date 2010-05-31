@@ -10,49 +10,7 @@
 [X] Player routes should match games routes
 [X] Make it so that Players can be referenced directly from a Game
 
-
-
-
-
-From: Paul Houghton 
-Sent: 12 May 2010 16:05
-To: Martin Spain; Jonathan Menzies-Smith; Jim MacAulay; Filip Mares
-Cc: Ryan Slade
-Subject: RE: Foos Stats
-
-It is a good idea. Each player can have a no. of games/power index, giving an indication of which players are generating the most power.
-
-From: Martin Spain 
-Sent: 12 May 2010 16:01
-To: Jonathan Menzies-Smith; Paul Houghton; Jim MacAulay; Filip Mares
-Cc: Ryan Slade
-Subject: Re: Foos Stats
-
-This is a magnificent idea. POWER!
-
-
-On 12/05/2010 15:58, "Jonathan Menzies-Smith" <Jonathan.Menzies-Smith@LBi.com> wrote:
-
-Do you think each match should have an extra stat.... number of times the ball leaves the table. This could be used to calculate the “power factor”
-
-
-From: Paul Houghton 
-Sent: 12 May 2010 15:55
-To: Jonathan Menzies-Smith; Jim MacAulay; Filip Mares; Martin Spain
-Cc: Ryan Slade
-Subject: RE: Foos Stats
-
-We’ve already got most of the profile pages written, courtesy of Jim:
-
 http://techwiki/index.php?title=Foosball_Ladder
-
-
-
-From: Jonathan Menzies-Smith 
-Sent: 12 May 2010 15:54
-To: Paul Houghton; Jim MacAulay; Filip Mares; Martin Spain
-Cc: Ryan Slade
-Subject: RE: Foos Stats
 
 Also Ryan needs to find a way of showing if you win in 2 or 3 games, and counting 2 out of 3 as an aggregate win – that’s what really counts.
 
@@ -61,27 +19,6 @@ http://i295.photobucket.com/albums/mm133/lukester1986/BOREHAM%20WOOD/2011-12/Pos
 
 And probably a profile page like this:
 http://img517.imageshack.us/img517/842/domenicocrisitobl6.png
-
-Actually... just build football manager
-
-I think all this should be do-able by Monday.
-
-Jon
-
-
-
-From: Paul Houghton 
-Sent: 12 May 2010 15:46
-To: Jim MacAulay; Jonathan Menzies-Smith; Filip Mares; Martin Spain
-Cc: Ryan Slade
-Subject: Foos Stats
-
-I’m going to make Ryan add a new feature to the site, where you can choose any two players and see head-to-head stats.
-
-I think it should show two sections, firstly each player’s general foos stats, and then the players’ record against each other (if they have played opposite each other before).
-
-Here is my proposal for the stats, please chip in if you think any are missing or could be improved:
-
 
 General Stats:
 
