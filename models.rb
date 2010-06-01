@@ -101,11 +101,18 @@ class PlayerStats
       Game.by_date.versus(players)
     end
     
+    @players = Player.all
+    
     @played = Hash.new(0)
     @wins = Hash.new(0)
     @losses = Hash.new(0)
     @ratios = Hash.new(0)
-    @streaks = Hash.new("")
+    
+    @streaks = {}
+    for player in @players
+      @streaks[player.id] = Streak.new
+    end
+    
     @longest_wins = []
     @longest_losses = []
     @average_goals_scored = Hash.new(0)
@@ -115,29 +122,22 @@ class PlayerStats
 
     calculate_wins_and_streaks
     calculate_win_loss_ratios
-    calculate_longest_streaks("longest_wins", /W+/)
-    calculate_longest_streaks("longest_losses", /L+/)
     calculate_average_goals_and_most_popular
-    trim_streaks if players.length != 2
+    calculate_longest_streaks("@longest_wins", "longest_win")
+    calculate_longest_streaks("@longest_losses", "longest_loss")
   end
 
   private
-
-  def calculate_longest_streaks(target_instance_variable, regex)
-    longest = 0
-    streaks = {}
+  
+  def calculate_longest_streaks(target_instance_variable, method)
+    totals = {}
     @streaks.each do |k,v|
-      count = v.scan(regex).collect { |e| e.length }.sort.last
-      longest = count if count && count > longest
-      streaks[count] = streaks[count] ? streaks[count] << k : [k]
+      totals[v.send(method)] ||= []
+      totals[v.send(method)] << k
     end
-    instance_variable_set("@#{target_instance_variable}", [longest, streaks[longest]])
+    instance_variable_set(target_instance_variable, totals.sort { |a, b| b[0] <=> a[0] }.first)
   end
-
-  def trim_streaks(n=10)
-    @streaks.each { |k,v| @streaks[k] = v[0,n] }
-  end
-
+  
   def calculate_wins_and_streaks
     for game in @games do
       winning_team = game.team_one_score > game.team_two_score ? "team_one" : "team_two"
@@ -147,13 +147,15 @@ class PlayerStats
       losing_players = [game.send(losing_team+"_attack"), game.send(losing_team+"_defense")].uniq
 
       for player in winning_players do
+        @streaks[player] = Streak.new unless @streaks[player]
         @wins[player] += 1
-        @streaks[player] += "W"
+        @streaks[player].all += "W"
       end
 
       for player in losing_players do
+        @streaks[player] = Streak.new unless @streaks[player]
         @losses[player] += 1
-        @streaks[player] += "L"
+        @streaks[player].all += "L"
       end
 
       (winning_players+losing_players).each { |p| @played[p] += 1 }
@@ -198,6 +200,35 @@ class PlayerStats
     played_against.each { |k,v| @most_popular_opponents[k] = v.most_common }
   end
 
+end
+
+class Streak
+  attr_accessor :all
+  attr_reader :recent
+  attr_reader :longest_win
+  attr_reader :longest_loss
+  
+  def initialize
+    @all = ""
+  end
+  
+  def recent(limit=10)
+    all[0,limit]
+  end
+  
+  def longest_win
+    calculate_longest_streaks(/W+/) || 0
+  end
+  
+  def longest_loss
+    calculate_longest_streaks(/L+/) || 0
+  end
+  
+  private
+  
+  def calculate_longest_streaks(regex)  
+    @all.scan(regex).collect { |e| e.length }.sort.last
+  end
 end
 
 # Helpers

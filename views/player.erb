@@ -1,5 +1,38 @@
-<%= @player.name %><br>
-Details:<br/>
+<table border="0" cellspacing="5" cellpadding="5">
+	<tr>
+		<th>Name</th>
+		<th>Played</th>
+		<th>Wins</th>
+		<th>Losses</th>
+		<th>Win/Loss</th>
+		<th>Average scored</th>
+		<th>Average conceded</th>
+		<th>Popular Teammates</th>
+		<th>Popular Opponents</th>
+		<th>All Games</th>
+	</tr>
+	<tr>
+		<td><%= player_link(@player) %></td>
+		<td><%= @stats.played[@player.id] %></td>
+		<td><%= @stats.wins[@player.id] %></td>
+		<td><%= @stats.losses[@player.id] %></td>
+		<td><%= format("%.3f", @stats.ratios[@player.id]) %></td>
+		<td><%= format("%.3f", @stats.average_goals_scored[@player.id]) %></td>
+		<td><%= format("%.3f", @stats.average_goals_conceded[@player.id]) %></td>
+		<td><%= format_most_popular(@stats.most_popular_teammates[@player.id]) %></td>
+		<td><%= format_most_popular(@stats.most_popular_opponents[@player.id]) %></td>
+		<td><%= streaks_to_images(@stats.streaks[@player.id], true) %></td>
+	</tr>
+</table>
+
+Longest winning streak: <%= @stats.streaks[@player.id].longest_win %> <br/>
+Longest losing streak: <%= @stats.streaks[@player.id].longest_loss %> <br />
+
+<br/>
+<a href="/players">Back to all players</a><br />
+
+<br/><br/>
+Description:<br/>
 <%= @player.description %><br/>
 <form method="post" action="/players/<%= @player.id%>">	
 	<textarea name="description" rows="5"><%= @player.raw_description %></textarea><br/>

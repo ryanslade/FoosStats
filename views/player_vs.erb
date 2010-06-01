@@ -18,7 +18,7 @@
 		<td><%= format("%.3f", @stats.ratios[player.id]) %></td>
 		<td><%= format("%.3f", @stats.average_goals_scored[player.id]) %></td>
 		<td><%= format("%.3f", @stats.average_goals_conceded[player.id]) %></td>
-		<td><%= streaks_to_images(@stats.streaks[player.id]) %></td>
+		<td><%= streaks_to_images(@stats.streaks[player.id], true) %></td>
 	</tr>
 	<% end %>
 </table>

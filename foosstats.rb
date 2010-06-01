@@ -41,7 +41,9 @@ get '/players/vs' do
 end
 
 get '/players/:playerid' do
-  @player = Player.get(params[:playerid])
+  @players = Player.all
+  @player = @players.get(params[:playerid])
+  @stats = PlayerStats.new
   erb :player
 end
 
@@ -115,12 +117,13 @@ get "/games/assram/:id" do
 end
 
 helpers do
-  def streaks_to_images(streak)
+  def streaks_to_images(streak, all=false)
     beer = "/images/icon_beer.gif"
     turd = "/images/icon_turd.gif"
-    streak = streak.gsub("W", image(beer))
-    streak = streak.gsub("L", image(turd))
-    streak
+    output = all ? streak.all : streak.recent
+    output = output.gsub("W", image(beer))
+    output = output.gsub("L", image(turd))
+    output
   end
 
   def image(url)

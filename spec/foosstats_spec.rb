@@ -163,12 +163,6 @@ describe "Foos Stats" do
     stats.played[4].should == 15
   end
 
-  it "should not trim streaks in vs mode" do
-    stats = PlayerStats.new([1,3])
-    stats.streaks[1].length.should == 15
-    stats.streaks[4].length.should == 15
-  end
-
   it "should calculate the correct wins and losses" do
     stats = PlayerStats.new
     stats.wins[1].should == 9
@@ -190,13 +184,37 @@ describe "Foos Stats" do
     stats.played[5].should == 0
   end
 
-  it "should calculate the correct streaks" do
+  it "should calculate the correct recent streaks" do
     stats = PlayerStats.new
-    stats.streaks[1].should == "WLLLLLLWWW"
-    stats.streaks[2].should == "LLLLLWWWWW"
-    stats.streaks[3].should == "LWWWWWWLLL"
-    stats.streaks[4].should == "LWWWWWWLLL"
-    stats.streaks[5].should == ""
+    stats.streaks[1].recent.should == "WLLLLLLWWW"
+    stats.streaks[2].recent.should == "LLLLLWWWWW"
+    stats.streaks[3].recent.should == "LWWWWWWLLL"
+    stats.streaks[4].recent.should == "LWWWWWWLLL"
+    stats.streaks[5].recent.should == ""
+  end
+
+  it "should calculate the correct overall streaks" do
+    stats = PlayerStats.new
+    stats.streaks[1].all.should == "WLLLLLLWWWWWWWW"
+    stats.streaks[2].all.should == "LLLLLWWWWWWWW"
+    stats.streaks[3].all.should == "LWWWWWWLLLLLLLL"
+    stats.streaks[4].all.should == "LWWWWWWLLLLLLLL"
+    stats.streaks[5].all.should == ""
+  end
+
+  it "should calculate the longest streaks per player" do
+    stats = PlayerStats.new
+    stats.streaks[1].longest_win.should == 8
+    stats.streaks[2].longest_win.should == 8
+    stats.streaks[3].longest_win.should == 6
+    stats.streaks[4].longest_win.should == 6
+    stats.streaks[5].longest_win.should == 0
+    
+    stats.streaks[1].longest_loss.should == 6
+    stats.streaks[2].longest_loss.should == 5
+    stats.streaks[3].longest_loss.should == 8
+    stats.streaks[4].longest_loss.should == 8
+    stats.streaks[5].longest_loss.should == 0
   end
 
   it "should calculate the correct win / loss ratios" do
