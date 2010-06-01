@@ -32,3 +32,10 @@ Longest losing streak: <%= @stats.streaks[@player.id].longest_loss %> <br />
 <a href="/players">Back to all players</a><br />
 
 <br/><br/>
+Description:<br/>
+<%= @player.description %><br/>
+<form method="post" action="/players/<%= @player.id%>">	
+	<textarea name="description" rows="5"><%= @player.raw_description %></textarea><br/>
+	
+	<input id="update-button" value="Update" type="submit"/>
+</form>

@@ -14,7 +14,16 @@ class Player
   property :first_name, String, :required => true
   property :last_name, String, :required => true
   property :email, String, :format => :email_address
-  
+  property :description, Text, :default => ""
+
+  def description
+    RDiscount.new(attribute_get(:description)).to_html
+  end
+
+  def raw_description
+    attribute_get(:description)
+  end
+
   def name
     "#{first_name} #{last_name}"
   end
