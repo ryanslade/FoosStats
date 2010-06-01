@@ -2,5 +2,5 @@ datamapper --version 0.10.2
 dm-core --version 0.10.2
 rack-flash
 rdiscount
-do_postgres
+do_postgres --version 0.10.3
 
