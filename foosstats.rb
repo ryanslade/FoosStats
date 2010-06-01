@@ -2,8 +2,8 @@ require "rubygems"
 require "sinatra"
 require "datamapper"
 require "rack-flash"
-
-require File.join(File.dirname(__FILE__), "models")
+require "models"
+require "playerstats"
 
 DataMapper.auto_upgrade!
 
