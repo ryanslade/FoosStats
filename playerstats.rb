@@ -4,16 +4,17 @@ class PlayerStats
   attr_reader :played, :wins, :losses, :ratios, :streaks, :longest_wins, :longest_losses
   attr_reader :average_goals_scored, :average_goals_conceded, :most_popular_teammates, :most_popular_opponents
 
-  def initialize(players=[])
-    raise "Should be initialsed with 0, 1 or 2 players" unless [0,1,2].include?(players.length)
+  def initialize(options={})
+    options[:players] ||= []
+    raise "Should be initialsed with 0, 1 or 2 players" unless [0,1,2].include?(options[:players].length)
     
-    @games = case players.length
+    @games = case options[:players].length
     when 0
       Game.by_date
     when 1
-      Game.with_player(players.first)
+      Game.with_player(options[:players].first)
     when 2
-      Game.by_date.versus(players)
+      Game.by_date.versus(options[:players])
     end
     
     @players = Player.all

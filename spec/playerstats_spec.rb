@@ -10,14 +10,14 @@ describe "Player Statistics" do
   end
 
   it "should should allow player stats to be created with 1, 2 or no players" do
-    lambda { PlayerStats.new([1,3]) }.should_not raise_error(error)
+    lambda { PlayerStats.new(:players => [1,3]) }.should_not raise_error(error)
     lambda { PlayerStats.new() }.should_not raise_error(error)
-    lambda { PlayerStats.new([1]) }.should_not raise_error(StandardError)
-    lambda { PlayerStats.new([1,2,3]) }.should raise_error(StandardError)
+    lambda { PlayerStats.new(:players => [1]) }.should_not raise_error(StandardError)
+    lambda { PlayerStats.new(:players => [1,2,3]) }.should raise_error(StandardError)
   end
 
   it "should only bring back stats for 2 players only" do
-    stats = PlayerStats.new([1,3])
+    stats = PlayerStats.new(:players => [1,3])
     stats.played[1].should == 15
     stats.played[2].should == 13
     stats.played[3].should == 15
