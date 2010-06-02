@@ -54,7 +54,7 @@ end
 get "/players/*/vs/*" do
   player_ids = params[:splat].collect { |p| p.to_i }
   @players = Player.all(:id => player_ids)
-  @stats = PlayerStats.new(@players.collect { |p| p.id })
+  @stats = PlayerStats.new(player_ids)
   @sorted_players = @players.sort { |a, b| @stats.ratios[a.id] <=> @stats.ratios[b.id] }.reverse
   erb :player_vs
 end
@@ -109,11 +109,6 @@ post "/games/create" do
   else
     redirect "/games/new"
   end
-end
-
-get "/games/assram/:id" do
-  Game.get(params[:id]).destroy
-  redirect "/games/recent"
 end
 
 helpers do
