@@ -66,7 +66,7 @@ class Game
 
   def self.versus(players)
     first  = all(:conditions => ["(team_one_attack = ? OR team_one_defense = ?) AND (team_two_attack = ? OR team_two_defense = ?)", players[0], players[0], players[1], players[1]])
-    second = all(:conditions => ["(team_one_attack = ? OR team_one_defense = ?) AND (team_two_attack = ? OR team_two_defense = ?)", players[1], players[1], players[2], players[2]])
+    second = all(:conditions => ["(team_one_attack = ? OR team_one_defense = ?) AND (team_two_attack = ? OR team_two_defense = ?)", players[1], players[1], players[0], players[0]])
     first + second
   end
 

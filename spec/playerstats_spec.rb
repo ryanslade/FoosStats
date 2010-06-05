@@ -117,4 +117,13 @@ describe "Player Statistics" do
     stats.most_popular_opponents[4].should == [1]
   end
 
+  it "should bring back the same results no matter what the order of the vs" do
+    stats = PlayerStats.new(:players => [1,3])
+    stats.ratios[1].should == 9.0/6
+    stats.ratios[3].should == 6.0/9
+    stats = PlayerStats.new(:players => [3,1])
+    stats.ratios[1].should == 9.0/6
+    stats.ratios[3].should == 6.0/9
+  end
+
 end
