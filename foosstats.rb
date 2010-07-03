@@ -1,6 +1,7 @@
 require "rubygems"
 require "sinatra"
-require "datamapper"
+require "dm-core"
+require "dm-migrations"
 require "rack-flash"
 require "models"
 require "playerstats"

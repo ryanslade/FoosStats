@@ -1,4 +1,4 @@
-require "datamapper"
+require "dm-core"
 require "dm-validations"
 require "rdiscount"
 
@@ -35,7 +35,7 @@ end
 
 class Game
   include DataMapper::Resource
-
+  
   property :id, Serial, :key => true
   property :created_at, DateTime, :default => lambda { Time.now.utc }
 
@@ -47,6 +47,8 @@ class Game
     belongs_to "#{team}_attacker".to_sym, Player, :child_key => ["#{team}_attack".to_sym]
     belongs_to "#{team}_defender".to_sym, Player, :child_key => ["#{team}_defense".to_sym]
   end
+
+  belongs_to :match, :required => false
 
   validates_with_method :check_scores
   validates_with_method :check_player_cannot_be_on_both_teams
@@ -71,7 +73,7 @@ class Game
   end
 
   def self.with_player(player_id)
-    ["team_one_attack", "team_two_attack", "team_one_defense", "team_two_defense"].collect { |q| all(:conditions => ["#{q} = ?", player_id]) }.inject { |m, v| m += v }  
+    ["team_one_attack", "team_two_attack", "team_one_defense", "team_two_defense"].collect { |q| all(:conditions => ["#{q} = ?", player_id]) }.inject { |m, v| m += v }
   end
 
   private
@@ -83,4 +85,13 @@ class Game
   def check_player_cannot_be_on_both_teams
     [team_one_attack, team_one_defense].any? { |p| [team_two_attack, team_two_defense].include?(p) } ? [false, "A player cannot be on both teams"] : true
   end
+end
+
+class Match
+  include DataMapper::Resource
+
+  property :id, Serial, :key => true
+  property :created_at, DateTime, :default => lambda { Time.now.utc }
+
+  has n, :games
 end

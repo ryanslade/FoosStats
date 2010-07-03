@@ -1,6 +1,4 @@
-datamapper --version 0.10.2
-dm-core --version 0.10.2
+data_mapper --version 1.0
 rack-flash
 rdiscount
-do_postgres --version 0.10.1
-
+dm-postgres-adaper --version 1.0
