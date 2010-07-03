@@ -112,6 +112,26 @@ post "/games/create" do
   end
 end
 
+get "/matches/manage" do
+  @games = Game.all(:match => nil)
+  
+  erb :matches_manage
+end
+
+post "/matches/add" do
+  m = Match.create
+  params.each do |k,v| 
+    m.games << Game.get(k.to_i)
+  end
+  
+  if m.save
+    flash[:notice] = "#{params.length} games added"
+  end
+  
+  redirect "/matches/manage"
+end
+
+
 helpers do
   def streaks_to_images(streak, all=false)
     beer = "/images/icon_beer.gif"

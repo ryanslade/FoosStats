@@ -81,5 +81,13 @@ describe "Integration" do
     last_request.url.should == "http://example.org/players/1/vs/3"
     last_response.should be_ok
   end
+  
+  # Match stuff
+  
+  it "should bring back all games without an associated match" do
+    get "/matches/manage"
+    last_response.should be_ok
+    last_response.body.scan(/<tr>/).length.should == Game.count+1
+  end
     
 end

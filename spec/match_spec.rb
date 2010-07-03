@@ -17,4 +17,11 @@ describe "Match" do
     match.games.length.should == 1
   end
   
+  it "should be nil if not added to game yet" do
+    g = Game.first
+    g.match.should == nil
+  end
+  
+  
+  
 end
