@@ -2,6 +2,7 @@
 <input id="update-button" value="Add" type="submit"/>
 <table border="0" cellspacing="5" cellpadding="5">
 	<tr>
+		<th>Match</th>
 		<th>Attacker</th>
 		<th>Defender</th>
 		<th>Score</th>
@@ -9,10 +10,10 @@
 		<th>Defender</th>
 		<th>Score</th>
 		<th>Date</th>
-		<th>Match</th>
 	</tr>
 	<% for game in @games do %>
 	<tr>
+		<td><input type="checkbox" name="<%= game.id %>"></td>
 		<td><%= player_link(game.team_one_attacker) %></td>
 		<td><%= player_link(game.team_one_defender) %></td>
 		<td><%= game.team_one_score %></td>
@@ -20,7 +21,6 @@
 		<td><%= player_link(game.team_two_defender) %></td>
 		<td><%= game.team_two_score %></td>
 		<td><%= game.created_at_friendly %></td>
-		<td><input type="checkbox" name="<%= game.id %>"></td>
 	</tr>
 	<% end %>
 </table>
