@@ -102,25 +102,10 @@ class Match
   
   def check_same_teams_added
     if games.length > 1
-      team1 = Set.new
-      team2 = Set.new
-      team1 << games.first.team_one_attack
-      team1 << games.first.team_one_defense
-      team2 << games.first.team_two_attack
-      team2 << games.first.team_two_defense
-      sets = [team1, team2]
-      
-      for game in games
-        s1 = Set.new
-        s2 = Set.new
-        s1 << game.team_one_attack
-        s1 << game.team_one_defense
-        s2 << game.team_two_attack
-        s2 << game.team_two_defense
-        test_sets = [s1,s2]
-        unless sets.all? { |s| test_sets.include?(s) }
-          return [false, "Games must all have the same teams"]
-        end
+      teams = [[games.first.team_one_attack, games.first.team_one_defense].to_set, [games.first.team_two_attack, games.first.team_two_defense].to_set]
+      for game in games[0..-1]
+        game_teams = [[game.team_one_attack, game.team_one_defense].to_set, [game.team_two_attack, game.team_two_defense].to_set]
+        return [false, "Games must all have the same teams"] unless teams.all? { |s| game_teams.include?(s) }
       end
     end
     true
