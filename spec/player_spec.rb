@@ -7,7 +7,7 @@ describe "Player" do
     @app ||= Sinatra::Application
   end
 
-  before(:all) do
+  before :all do
     setup_db
   end
   

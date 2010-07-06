@@ -5,16 +5,17 @@ describe "Match" do
     @app ||= Sinatra::Application
   end
 
-  before(:all) do
+  before :all do
     setup_db
   end
   
   it "should have many games" do
     Match.create
-    match = Match.get(1)
+    match = Match.first
     match.games.length.should == 0
     match.games << Game.first
     match.games.length.should == 1
+    Match.first.destroy
   end
   
   it "should be nil if not added to game yet" do
@@ -22,6 +23,18 @@ describe "Match" do
     g.match.should == nil
   end
   
+  #it "should only allow game with the same player" do
+  #  true.should == false
+  #end
   
+  it "should remove game id's when match is removed" do
+    match = Match.create
+    match.games.length.should == 0
+    match.games << Game.first
+    match.save
+    Game.first.match.id.should == match.id
+    Match.first.destroy
+    Game.first.match.should == nil
+  end
   
 end
