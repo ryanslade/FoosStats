@@ -1,6 +1,7 @@
 require "dm-core"
 require "dm-validations"
 require "rdiscount"
+require "set"
 
 #DataMapper::Logger.new($stdout, :debug)
 DataMapper.setup(:default, ENV["DATABASE_URL"] || "sqlite3:///#{Dir.pwd}/stats.db")
@@ -94,4 +95,34 @@ class Match
   property :created_at, DateTime, :default => lambda { Time.now.utc }
 
   has n, :games
+  
+  validates_with_method :check_same_teams_added
+  
+  private
+  
+  def check_same_teams_added
+    if games.length > 1
+      team1 = Set.new
+      team2 = Set.new
+      team1 << games.first.team_one_attack
+      team1 << games.first.team_one_defense
+      team2 << games.first.team_two_attack
+      team2 << games.first.team_two_defense
+      sets = [team1, team2]
+      
+      for game in games
+        s1 = Set.new
+        s2 = Set.new
+        s1 << game.team_one_attack
+        s1 << game.team_one_defense
+        s2 << game.team_two_attack
+        s2 << game.team_two_defense
+        test_sets = [s1,s2]
+        unless sets.all? { |s| test_sets.include?(s) }
+          return [false, "Games must all have the same teams"]
+        end
+      end
+    end
+    true
+  end
 end
