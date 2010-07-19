@@ -131,6 +131,10 @@ post "/matches/add" do
   redirect "/matches/manage"
 end
 
+post "/games/delete/:id" do
+  Game.get(params[:id]).destroy
+  redirect "/games/recent"
+end
 
 helpers do
   def streaks_to_images(streak, all=false)
