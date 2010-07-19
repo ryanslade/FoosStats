@@ -81,5 +81,16 @@ describe "Integration" do
     last_request.url.should == "http://example.org/players/1/vs/3"
     last_response.should be_ok
   end
+  
+  # Delete game
+  it "should delete a game when posted to /games/delete/x" do
+    old_count = Game.count
+    g = Game.create(:team_one_attack => 1, :team_one_defense => 2, :team_two_attack => 3, :team_two_defense => 4, :team_one_score => 10, :team_two_score => 8)
+    post "/games/delete/#{g.id}"
+    Game.count.should == old_count
+    follow_redirect!
+    last_request.url.should == "http://example.org/games/recent"
+    last_response.should be_ok
+  end
     
 end
