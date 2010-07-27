@@ -31,4 +31,9 @@ describe "Player" do
     player.description.should == "<p>Test <em>markdown</em></p>\n"
   end
   
+  it "should not allow two players with the same e-mail" do
+    p = Player.new(:email => "test1@test.com", :first_name => "value", :last_name => "value")
+    p.valid?.should be false
+  end
+  
 end

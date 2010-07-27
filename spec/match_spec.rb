@@ -33,7 +33,7 @@ describe "Match" do
     Game.first.match.should == nil
   end
   
-  it "should only allow game with the same players" do
+  it "should only allow games with the same players" do
     players = []
     games = []
     5.times { |n| players << Player.create(:first_name => "mf#{n+1}", :last_name => "ml#{n+1}", :email => "matchtest#{n+1}@test.com") }
