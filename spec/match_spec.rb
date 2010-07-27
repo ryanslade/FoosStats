@@ -10,16 +10,15 @@ describe "Match" do
   end
   
   it "should have many games" do
-    Match.create
-    match = Match.first
+    match = Match.create
     match.games.length.should == 0
     match.games << Game.first
     match.games.length.should == 1
-    Match.first.destroy
+    match.destroy
   end
   
   it "should be nil if not added to game yet" do
-    g = Game.first
+    g = Game.get(4)
     g.match.should == nil
   end
   
@@ -29,7 +28,7 @@ describe "Match" do
     match.games << Game.first
     match.save
     Game.first.match.id.should == match.id
-    Match.first.destroy
+    match.destroy
     Game.first.match.should == nil
   end
   

@@ -86,7 +86,7 @@ describe "Integration" do
   it "should bring back all games without an associated match" do
     get "/matches/manage"
     last_response.should be_ok
-    last_response.body.scan(/<tr>/).length.should == Game.count+1
+    last_response.body.scan(/<tr>/).length.should == 13
   end
   
   # Delete game
