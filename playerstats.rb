@@ -71,7 +71,7 @@ class PlayerStats
       for player in losing_players do
         @streaks[player] = Streak.new unless @streaks[player]
         @losses[player] += 1
-        @streaks[player].all += "L"
+        @streaks[player].all += (game.send(losing_team+"_score") < 5) ? "H" : "L"
       end
 
       (winning_players+losing_players).each { |p| @played[p] += 1 }
@@ -137,7 +137,7 @@ class Streak
   end
   
   def longest_loss
-    calculate_longest_streaks(/L+/) || 0
+    calculate_longest_streaks(/[LH]+/) || 0
   end
   
   private

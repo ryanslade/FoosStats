@@ -119,10 +119,13 @@ end
 helpers do
   def streaks_to_images(streak, all=false)
     beer = "/images/icon_beer.gif"
+    sad  = "/images/icon_sad.gif"
     turd = "/images/icon_turd.gif"
+    
     output = all ? streak.all : streak.recent
     output = output.gsub("W", image(beer))
-    output = output.gsub("L", image(turd))
+    output = output.gsub("L", image(sad))
+    output = output.gsub("H", image(turd))
     output
   end
 

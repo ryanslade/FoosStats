@@ -47,7 +47,7 @@ describe "Player Statistics" do
 
   it "should calculate the correct recent streaks" do
     stats = PlayerStats.new
-    stats.streaks[1].recent.should == "WLLLLLLWWW"
+    stats.streaks[1].recent.should == "WHLLLLLWWW"
     stats.streaks[2].recent.should == "LLLLLWWWWW"
     stats.streaks[3].recent.should == "LWWWWWWLLL"
     stats.streaks[4].recent.should == "LWWWWWWLLL"
@@ -56,7 +56,7 @@ describe "Player Statistics" do
 
   it "should calculate the correct overall streaks" do
     stats = PlayerStats.new
-    stats.streaks[1].all.should == "WLLLLLLWWWWWWWW"
+    stats.streaks[1].all.should == "WHLLLLLWWWWWWWW"
     stats.streaks[2].all.should == "LLLLLWWWWWWWW"
     stats.streaks[3].all.should == "LWWWWWWLLLLLLLL"
     stats.streaks[4].all.should == "LWWWWWWLLLLLLLL"
@@ -93,7 +93,7 @@ describe "Player Statistics" do
 
   it "should record the average goals scored when in attack" do
     stats = PlayerStats.new
-    stats.average_goals_scored[1].should == 9.2
+    stats.average_goals_scored[1].to_s.should == "8.86666666666667"
   end
 
   it "should recored the average goals conceded when in defense" do
