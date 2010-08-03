@@ -3,7 +3,7 @@ require "helpers"
 class PlayerStats
   attr_reader :played, :wins, :losses, :ratios, :streaks, :longest_wins, :longest_losses
   attr_reader :average_goals_scored, :average_goals_conceded, :most_popular_teammates, :most_popular_opponents
-  attr_reader :humiliation_percentage
+  attr_reader :humiliation_percentage, :wins_percentage
 
   def initialize(options={})
     options[:players] ||= []
@@ -26,6 +26,7 @@ class PlayerStats
     @ratios = Hash.new(0)
     @humiliations = Hash.new(0)
     @humiliation_percentage = Hash.new(0)
+    @wins_percentage = Hash.new(0)
 
     @streaks = {}
     for player in @players
@@ -50,7 +51,8 @@ class PlayerStats
   private
 
   def calculate_percentages
-    @humiliations.each { |k,v| humiliation_percentage[k] = (@humiliations[k].to_f/@played[k])*100 }
+    @humiliations.each { |k,v| @humiliation_percentage[k] = (@humiliations[k].to_f / @played[k])*100 }
+    @wins.each { |k,v| @wins_percentage[k] = (@wins[k].to_f / @played[k])*100 }
   end
 
   def calculate_longest_streaks(target_instance_variable, method)
