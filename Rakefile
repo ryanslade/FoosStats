@@ -15,6 +15,7 @@ end
 
 task :github do
   sh "git push origin master"
+  sh "git push origin development"
 end
 
 task :default => [:spec]
