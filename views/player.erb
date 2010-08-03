@@ -5,6 +5,7 @@
 		<th>Wins</th>
 		<th>Losses</th>
 		<th>Win/Loss</th>
+		<th>Humiliations</th>
 		<th>Average scored</th>
 		<th>Average conceded</th>
 		<th>Popular Teammates</th>
@@ -17,6 +18,7 @@
 		<td><%= @stats.wins[@player.id] %></td>
 		<td><%= @stats.losses[@player.id] %></td>
 		<td><%= format("%.3f", @stats.ratios[@player.id]) %></td>
+		<td><%= format("%.2f", @stats.humiliation_percentage[@player.id]) %>%</td>
 		<td><%= format("%.3f", @stats.average_goals_scored[@player.id]) %></td>
 		<td><%= format("%.3f", @stats.average_goals_conceded[@player.id]) %></td>
 		<td><%= format_most_popular(@stats.most_popular_teammates[@player.id]) %></td>

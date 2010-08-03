@@ -126,4 +126,9 @@ describe "Player Statistics" do
     stats.ratios[3].should == 6.0/9
   end
 
+  it "should calculate the percentage of games lost with less than 5" do
+    stats = PlayerStats.new
+    stats.humiliation_percentage[1].to_s.should == "6.66666666666667"
+  end
+  
 end
