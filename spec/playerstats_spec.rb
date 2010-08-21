@@ -131,4 +131,9 @@ describe "Player Statistics" do
     stats.humiliation_percentage[1].to_s.should == "6.66666666666667"
   end
   
+  it "should calulate the wins percentage" do
+    stats = PlayerStats.new
+    stats.wins_percentage[1].should == (9.to_f/15)*100
+  end
+  
 end

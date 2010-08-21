@@ -5,6 +5,7 @@
 		<th>Wins</th>
 		<th>Losses</th>
 		<th>Win/Loss</th>
+		<th>Wins %</th>
 		<th>Average scored</th>
 		<th>Average conceded</th>
 		<th>Current Form</th>
@@ -16,6 +17,7 @@
 		<td><%= @stats.wins[player.id] %></td>
 		<td><%= @stats.losses[player.id] %></td>
 		<td><%= format("%.3f", @stats.ratios[player.id]) %></td>
+		<td><%= format("%.2f", @stats.wins_percentage[player.id]) %>%</td>
 		<td><%= format("%.3f", @stats.average_goals_scored[player.id]) %></td>
 		<td><%= format("%.3f", @stats.average_goals_conceded[player.id]) %></td>
 		<td><%= streaks_to_images(@stats.streaks[player.id]) %></td>
