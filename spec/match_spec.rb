@@ -57,7 +57,6 @@ describe "Match" do
     # Rollback
     players.each { |p| p.destroy }
     games.each { |g| g.destroy }
-    match.destroy
   end
   
 end
