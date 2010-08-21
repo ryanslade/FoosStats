@@ -96,6 +96,15 @@ class Match
   
   validates_with_method :check_same_teams_added
   
+  before :destroy do
+    for game in games do
+      # Bulshit hack.. this may be the final straw to choose another ORM
+      g = Game.get(game.id)
+      g.match_id = nil
+      g.save
+    end
+  end
+  
   private
   
   def check_same_teams_added
