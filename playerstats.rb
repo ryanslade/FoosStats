@@ -5,7 +5,7 @@ class PlayerStats
   attr_reader :played, :wins, :losses, :ratios, :streaks, :longest_wins, :longest_losses
   attr_reader :average_goals_scored, :average_goals_conceded, :most_popular_teammates, :most_popular_opponents
   attr_reader :humiliation_percentage, :wins_percentage
-  attr_reader :match_wins, :match_losses, :match_total
+  attr_reader :match_wins, :match_losses, :match_total, :match_ratios, :match_wins_percentage
 
   def initialize(options={})
     options[:players] ||= []
@@ -24,6 +24,8 @@ class PlayerStats
     @match_wins = Hash.new(0)
     @match_losses = Hash.new(0)
     @match_total = Hash.new(0)
+    @match_ratios = Hash.new(0)
+    @match_wins_percentage = Hash.new(0)
 
     @players = Player.all
 
@@ -92,6 +94,7 @@ class PlayerStats
   def calculate_percentages
     @humiliations.each { |k,v| @humiliation_percentage[k] = (@humiliations[k].to_f / @played[k])*100 }
     @wins.each { |k,v| @wins_percentage[k] = (@wins[k].to_f / @played[k])*100 }
+    @match_wins.each { |k,v| @match_wins_percentage[k] = (@match_wins[k].to_f / @match_total[k])*100 }
   end
 
   def calculate_longest_streaks(target_instance_variable, method)
@@ -135,6 +138,7 @@ class PlayerStats
 
   def calculate_win_loss_ratios
     (@wins.keys+@losses.keys).uniq.each { |k| @ratios[k] = @wins[k].to_f / @losses[k] }
+    (@match_wins.keys+@match_losses.keys).uniq.each { |k| @match_ratios[k] = @match_wins[k].to_f / @match_losses[k] }
   end
 
   def calculate_average_goals_and_most_popular
