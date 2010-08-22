@@ -1,4 +1,4 @@
 data_mapper --version 1.0
 rack-flash
 rdiscount
-dm-postgres-adaper --version 1.0
+dm-postgres-adaper
