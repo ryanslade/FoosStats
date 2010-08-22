@@ -1,9 +1,11 @@
 require "helpers"
+require "set"
 
 class PlayerStats
   attr_reader :played, :wins, :losses, :ratios, :streaks, :longest_wins, :longest_losses
   attr_reader :average_goals_scored, :average_goals_conceded, :most_popular_teammates, :most_popular_opponents
   attr_reader :humiliation_percentage, :wins_percentage
+  attr_reader :match_wins, :match_losses, :match_total
 
   def initialize(options={})
     options[:players] ||= []
@@ -17,6 +19,11 @@ class PlayerStats
     when 2
       Game.by_date.versus(options[:players])
     end
+    
+    @matches = Match.all
+    @match_wins = Hash.new(0)
+    @match_losses = Hash.new(0)
+    @match_total = Hash.new(0)
 
     @players = Player.all
 
@@ -41,6 +48,7 @@ class PlayerStats
     @most_popular_opponents = {}
 
     calculate_wins_and_streaks
+    calculate_match_wins
     calculate_win_loss_ratios
     calculate_average_goals_and_most_popular
     calculate_longest_streaks("@longest_wins", "longest_win")
@@ -49,6 +57,37 @@ class PlayerStats
   end
 
   private
+
+  def calculate_match_wins
+    for match in @matches do
+      games = match.games
+      wins = Hash.new(0)
+      losses = Hash.new(0)
+      played = Hash.new(0)
+      all_players = []
+      
+      for game in games do
+        winning_team = game.team_one_score > game.team_two_score ? "team_one" : "team_two"
+        losing_team  = game.team_one_score < game.team_two_score ? "team_one" : "team_two"
+
+        winning_players = [game.send(winning_team+"_attack"), game.send(winning_team+"_defense")].uniq
+        losing_players = [game.send(losing_team+"_attack"), game.send(losing_team+"_defense")].uniq
+        all_players += (winning_players + losing_players)
+        
+        winning_players.each { |p| wins[p] += 1 }
+      end
+      
+      all_players.uniq!
+      
+      wins = wins.sort { |a, b| a[1] <=> b[1] }.reverse
+      match_winners = [wins[0][0], wins[1][0]]
+      match_losers = all_players - match_winners
+      
+      match_winners.each { |p| @match_wins[p] += 1 }
+      match_losers.each { |p| @match_losses[p] += 1 }
+      all_players.each { |p| @match_total[p] += 1 }
+    end
+  end
 
   def calculate_percentages
     @humiliations.each { |k,v| @humiliation_percentage[k] = (@humiliations[k].to_f / @played[k])*100 }

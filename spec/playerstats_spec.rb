@@ -136,4 +136,22 @@ describe "Player Statistics" do
     stats.wins_percentage[1].should == (9.to_f/15)*100
   end
   
+  it "should work out match wins" do
+    stats = PlayerStats.new
+    stats.match_wins[1].should == 1
+    stats.match_wins[3].should == 0
+  end
+  
+  it "should work out match losses" do
+    stats = PlayerStats.new
+    stats.match_losses[1].should == 0
+    stats.match_losses[3].should == 1
+  end
+  
+  it "should work out matches played" do
+    stats = PlayerStats.new
+    stats.match_total[1].should == 1
+    stats.match_total[3].should == 1
+  end
+  
 end
