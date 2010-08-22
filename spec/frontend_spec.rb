@@ -11,10 +11,10 @@ describe "Integration" do
     setup_db
   end
     
-  it "should redirect to /games/recent when pointed at /" do
+  it "should redirect to /players when pointed at /" do
     get "/"
     follow_redirect!
-    last_request.url.should == "http://example.org/games/recent"
+    last_request.url.should == "http://example.org/players"
     last_response.should be_ok
   end
 

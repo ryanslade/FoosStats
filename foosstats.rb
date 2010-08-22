@@ -12,7 +12,7 @@ set :sessions, true
 use Rack::Flash
 
 get "/" do
-  redirect "/games/recent"
+  redirect "/players"
 end
 
 get "/players/new" do
