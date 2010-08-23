@@ -113,7 +113,7 @@ post "/games/create" do
 end
 
 get "/matches/manage" do
-  @games = Game.all(:match => nil)
+  @games = Game.all(:match => nil, :order => [ :created_at.desc ])
   
   erb :matches_manage
 end
