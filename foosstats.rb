@@ -16,7 +16,7 @@ get "/" do
 end
 
 get "/players/new" do
-  @player_count = Player.count
+  @player_count = Player.all.length
   erb :players_form
 end
 
@@ -81,7 +81,7 @@ get "/games/recent/:limit" do
 end
 
 def get_recent_games(limit=nil)
-  @games_count = Game.count
+  @games_count = Game.all.length
   @games = limit ? Game.recent(limit) : Game.recent
   erb :recent_games
 end
