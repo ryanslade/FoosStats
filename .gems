@@ -1,5 +1,4 @@
 data_mapper 
 rack-flash
 rdiscount
-dm-postgres-adaper --version 1.0
 sinatra
