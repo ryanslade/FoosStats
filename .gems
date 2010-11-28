@@ -1,5 +1,5 @@
-data_mapper 
-rack-flash
-rdiscount
-sinatra
+data_mapper --version 1.0.0
+rack-flash --version 0.1.1
+rdiscount --version 1.6.5
+sinatra --version 1.0
 dm-postgres-adapter
