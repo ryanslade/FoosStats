@@ -82,12 +82,16 @@ class PlayerStats
       all_players.uniq!
       
       wins = wins.sort { |a, b| a[1] <=> b[1] }.reverse
-      match_winners = [wins[0][0], wins[1][0]]
-      match_losers = all_players - match_winners
+
+      if (wins.length >= 2)
+        match_winners = [wins[0][0], wins[1][0]]
+        match_losers = all_players - match_winners
       
-      match_winners.each { |p| @match_wins[p] += 1 }
-      match_losers.each { |p| @match_losses[p] += 1 }
-      all_players.each { |p| @match_total[p] += 1 }
+        match_winners.each { |p| @match_wins[p] += 1 }
+        match_losers.each { |p| @match_losses[p] += 1 }
+        all_players.each { |p| @match_total[p] += 1 }
+      end
+      
     end
   end
 
