@@ -28,7 +28,7 @@ class PlayerStats
     @match_wins_percentage = Hash.new(0)
 
     @players = Player.all
-
+    
     @played = Hash.new(0)
     @wins = Hash.new(0)
     @losses = Hash.new(0)
@@ -104,9 +104,12 @@ class PlayerStats
   def calculate_longest_streaks(target_instance_variable, method)
     totals = {}
     @streaks.each do |k,v|
-      totals[v.send(method)] ||= []
-      totals[v.send(method)] << k
+      unless @players.get(k).hidden? # Ignore hidden players
+        totals[v.send(method)] ||= []
+        totals[v.send(method)] << k
+      end
     end
+    
     instance_variable_set(target_instance_variable, totals.sort { |a, b| b[0] <=> a[0] }.first)
   end
 

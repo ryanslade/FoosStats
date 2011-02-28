@@ -19,10 +19,10 @@ set :logging, false
 def setup_db
   DataMapper.auto_migrate!
   
-  4.times do |n|
+  5.times do |n|
     Player.create(:first_name => "first#{n}", :last_name => "last#{n}", :email => "test#{n}@test.com")
   end
-
+  
   # Edge case player
   Player.create(:first_name => "first", :last_name => "last", :email => "test@test.com")
 

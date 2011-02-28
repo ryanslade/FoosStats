@@ -10,7 +10,22 @@ describe "Integration" do
   before :all do
     setup_db
   end
-    
+
+  it "should hide a player when posted to /players/hide/:id" do
+    post "/players/5/hide"
+    Player.get(5).hidden.should be true
+    # Undo
+    Player.get(5).update(:hidden => false)
+  end
+
+  it "should not show hidden players" do
+    post "/players/5/hide"
+    get "/players"
+    last_response.body.scan(/<tr>/).length.should == 6
+    # Undo
+    Player.get(5).update(:hidden => false)
+  end
+  
   it "should redirect to /players when pointed at /" do
     get "/"
     follow_redirect!

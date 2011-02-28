@@ -16,6 +16,7 @@ class Player
   property :last_name, String, :required => true
   property :email, String, :format => :email_address
   property :description, Text, :default => ""
+  property :hidden, Boolean, :default => false
 
   validates_uniqueness_of :email
 
@@ -32,7 +33,7 @@ class Player
   end
 
   def self.order_by_name
-    all(:order => [:first_name.asc, :last_name.asc])
+    all(:order => [:first_name.asc, :last_name.asc], :hidden => false)
   end
 end
 

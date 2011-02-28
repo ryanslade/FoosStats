@@ -68,6 +68,13 @@ post '/players/:playerid' do
   redirect "/players/#{@player.id}"
 end
 
+post "/players/:playerid/hide" do
+  @player = Player.get(params[:playerid])
+  @player.update(:hidden => true)
+  flash[:notice] = "#{@player.name} was succesfully hidden"
+  redirect "/players"
+end
+
 get "/games/recent" do
   get_recent_games
 end
