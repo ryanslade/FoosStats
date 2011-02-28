@@ -10,12 +10,11 @@ Spec::Rake::SpecTask.new do |t|
 end
 
 task :deploy do
-  sh "git push heroku master"
+  sh "git push origin master"
 end
 
 task :github do
-  sh "git push origin master"
-  sh "git push origin development"
+  sh "git push github master"
 end
 
 task :default => [:spec]
